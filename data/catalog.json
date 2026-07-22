@@ -319,6 +319,36 @@
     "lastChecked": "Needs verification"
   },
   {
+    "id": "generic-deltamodel",
+    "name": "generic_deltamodel",
+    "type": "Method",
+    "categories": [
+      "Differentiable Modeling",
+      "Hybrid Modeling"
+    ],
+    "description": "PyTorch differentiable modeling framework for building differentiable models that couple neural networks with process-based equations.",
+    "spatialCoverage": "Needs verification",
+    "temporalResolution": "Needs verification",
+    "spatialResolution": "Needs verification",
+    "access": "Open",
+    "useCases": [
+      "Hybrid neural-network and process-based hydrologic modeling",
+      "Differentiable rainfall-runoff and related Earth system modeling workflows"
+    ],
+    "limitations": [
+      "Hydrology-specific configurations and supported workflows require editorial verification"
+    ],
+    "tags": [
+      "Differentiable modeling",
+      "Hybrid modeling",
+      "Deep learning",
+      "Starter entry"
+    ],
+    "url": "https://github.com/mhpi/generic_deltamodel/",
+    "reference": "Shen, C., Appling, A.P., Gentine, P. et al. Differentiable modelling to unify machine learning and physical models for geosciences. Nat Rev Earth Environ 4, 552-567 (2023). https://doi.org/10.1038/s43017-023-00450-9",
+    "lastChecked": "2026-07-22"
+  },
+  {
     "id": "pub-challenge",
     "name": "Prediction in Ungauged Basins",
     "type": "Research Challenge",
