@@ -1,0 +1,350 @@
+[
+  {
+    "id": "camels-us",
+    "name": "CAMELS-US",
+    "type": "Dataset",
+    "categories": [
+      "Rainfall-Runoff",
+      "Catchment Attributes"
+    ],
+    "description": "Catchment Attributes and Meteorology for Large-sample Studies (US). Starter entry requiring editorial verification.",
+    "spatialCoverage": "United States",
+    "temporalResolution": "Needs verification",
+    "spatialResolution": "Needs verification",
+    "access": "Open",
+    "useCases": [
+      "Large-sample hydrology",
+      "Rainfall-runoff model benchmarking"
+    ],
+    "limitations": [
+      "Metadata details in this MVP are not fully verified"
+    ],
+    "tags": [
+      "Starter entry",
+      "Needs verification",
+      "Benchmarking"
+    ],
+    "url": "https://ral.ucar.edu/solutions/products/camels",
+    "reference": "Needs verification",
+    "lastChecked": "Needs verification"
+  },
+  {
+    "id": "caravan",
+    "name": "Caravan",
+    "type": "Dataset",
+    "categories": [
+      "Large-Sample Hydrology",
+      "Global Catchments"
+    ],
+    "description": "Multi-region large-sample hydrology dataset framework. Starter entry requiring editorial verification.",
+    "spatialCoverage": "Needs verification",
+    "temporalResolution": "Needs verification",
+    "spatialResolution": "Needs verification",
+    "access": "Needs verification",
+    "useCases": [
+      "Cross-region model comparison",
+      "Hydrologic generalization studies"
+    ],
+    "limitations": [
+      "Coverage and variable harmonization details need review"
+    ],
+    "tags": [
+      "Starter entry",
+      "Needs verification",
+      "Large-sample"
+    ],
+    "url": "",
+    "reference": "Needs verification",
+    "lastChecked": "Needs verification"
+  },
+  {
+    "id": "grdc",
+    "name": "GRDC",
+    "type": "Dataset",
+    "categories": [
+      "Streamflow",
+      "In Situ Observations"
+    ],
+    "description": "Global Runoff Data Centre streamflow archive. Starter entry requiring editorial verification.",
+    "spatialCoverage": "Global",
+    "temporalResolution": "Needs verification",
+    "spatialResolution": "Gauge locations",
+    "access": "Needs verification",
+    "useCases": [
+      "Runoff trend analysis",
+      "Hydrologic model evaluation"
+    ],
+    "limitations": [
+      "Station availability and access conditions vary"
+    ],
+    "tags": [
+      "Starter entry",
+      "Needs verification",
+      "Runoff"
+    ],
+    "url": "https://www.bafg.de/GRDC/EN/Home/homepage_node.html",
+    "reference": "Needs verification",
+    "lastChecked": "Needs verification"
+  },
+  {
+    "id": "usgs-nwis",
+    "name": "USGS NWIS",
+    "type": "Observation Product",
+    "categories": [
+      "Streamflow",
+      "Water Monitoring"
+    ],
+    "description": "USGS National Water Information System observations. Starter entry requiring editorial verification.",
+    "spatialCoverage": "United States",
+    "temporalResolution": "Needs verification",
+    "spatialResolution": "Monitoring stations",
+    "access": "Open",
+    "useCases": [
+      "Gauge data retrieval",
+      "Hydrologic calibration and validation"
+    ],
+    "limitations": [
+      "Site and variable completeness vary by station"
+    ],
+    "tags": [
+      "Starter entry",
+      "Needs verification",
+      "USGS"
+    ],
+    "url": "https://waterdata.usgs.gov/nwis",
+    "reference": "Needs verification",
+    "lastChecked": "Needs verification"
+  },
+  {
+    "id": "daymet",
+    "name": "Daymet",
+    "type": "Observation Product",
+    "categories": [
+      "Meteorology",
+      "Gridded Forcing"
+    ],
+    "description": "Daily surface weather data on a gridded surface. Starter entry requiring editorial verification.",
+    "spatialCoverage": "Needs verification",
+    "temporalResolution": "Daily",
+    "spatialResolution": "Needs verification",
+    "access": "Open",
+    "useCases": [
+      "Hydrologic model forcing",
+      "Climate-hydrology analyses"
+    ],
+    "limitations": [
+      "Interpolation assumptions should be assessed per region"
+    ],
+    "tags": [
+      "Starter entry",
+      "Needs verification",
+      "Meteorology"
+    ],
+    "url": "https://daymet.ornl.gov/",
+    "reference": "Needs verification",
+    "lastChecked": "Needs verification"
+  },
+  {
+    "id": "nldas",
+    "name": "NLDAS",
+    "type": "Observation Product",
+    "categories": [
+      "Land Surface Forcing",
+      "Hydrometeorology"
+    ],
+    "description": "North American Land Data Assimilation System products. Starter entry requiring editorial verification.",
+    "spatialCoverage": "North America",
+    "temporalResolution": "Needs verification",
+    "spatialResolution": "Needs verification",
+    "access": "Open",
+    "useCases": [
+      "Land surface and hydrologic studies",
+      "Forcing data for model experiments"
+    ],
+    "limitations": [
+      "Version-specific differences require review"
+    ],
+    "tags": [
+      "Starter entry",
+      "Needs verification",
+      "Assimilation"
+    ],
+    "url": "https://ldas.gsfc.nasa.gov/nldas",
+    "reference": "Needs verification",
+    "lastChecked": "Needs verification"
+  },
+  {
+    "id": "smap",
+    "name": "SMAP",
+    "type": "Observation Product",
+    "categories": [
+      "Soil Moisture",
+      "Remote Sensing"
+    ],
+    "description": "Soil Moisture Active Passive mission products. Starter entry requiring editorial verification.",
+    "spatialCoverage": "Global",
+    "temporalResolution": "Needs verification",
+    "spatialResolution": "Needs verification",
+    "access": "Open",
+    "useCases": [
+      "Soil moisture monitoring",
+      "Hydrologic initialization"
+    ],
+    "limitations": [
+      "Retrieval uncertainty depends on vegetation and surface conditions"
+    ],
+    "tags": [
+      "Starter entry",
+      "Needs verification",
+      "Satellite"
+    ],
+    "url": "https://smap.jpl.nasa.gov/",
+    "reference": "Needs verification",
+    "lastChecked": "Needs verification"
+  },
+  {
+    "id": "grace",
+    "name": "GRACE",
+    "type": "Observation Product",
+    "categories": [
+      "Terrestrial Water Storage",
+      "Remote Sensing"
+    ],
+    "description": "Gravity Recovery and Climate Experiment terrestrial water storage products. Starter entry requiring editorial verification.",
+    "spatialCoverage": "Global",
+    "temporalResolution": "Needs verification",
+    "spatialResolution": "Needs verification",
+    "access": "Open",
+    "useCases": [
+      "Water storage anomaly analysis",
+      "Groundwater and basin-scale studies"
+    ],
+    "limitations": [
+      "Coarse native resolution and processing choices affect interpretation"
+    ],
+    "tags": [
+      "Starter entry",
+      "Needs verification",
+      "Satellite"
+    ],
+    "url": "https://grace.jpl.nasa.gov/",
+    "reference": "Needs verification",
+    "lastChecked": "Needs verification"
+  },
+  {
+    "id": "swot",
+    "name": "SWOT",
+    "type": "Observation Product",
+    "categories": [
+      "Surface Water",
+      "Remote Sensing"
+    ],
+    "description": "Surface Water and Ocean Topography mission data products. Starter entry requiring editorial verification.",
+    "spatialCoverage": "Global",
+    "temporalResolution": "Needs verification",
+    "spatialResolution": "Needs verification",
+    "access": "Needs verification",
+    "useCases": [
+      "River and lake water surface observations",
+      "Hydrodynamic and storage studies"
+    ],
+    "limitations": [
+      "Mission product maturity and availability vary over time"
+    ],
+    "tags": [
+      "Starter entry",
+      "Needs verification",
+      "Satellite"
+    ],
+    "url": "https://swot.jpl.nasa.gov/",
+    "reference": "Needs verification",
+    "lastChecked": "Needs verification"
+  },
+  {
+    "id": "hbv-model",
+    "name": "HBV",
+    "type": "Model",
+    "categories": [
+      "Conceptual Hydrologic Model",
+      "Rainfall-Runoff"
+    ],
+    "description": "HBV conceptual rainfall-runoff model family. Starter entry requiring editorial verification.",
+    "spatialCoverage": "Needs verification",
+    "temporalResolution": "Needs verification",
+    "spatialResolution": "Needs verification",
+    "access": "Needs verification",
+    "useCases": [
+      "Catchment simulation",
+      "Operational and research hydrology"
+    ],
+    "limitations": [
+      "Implementation details differ across HBV variants"
+    ],
+    "tags": [
+      "Starter entry",
+      "Needs verification",
+      "Conceptual model"
+    ],
+    "url": "",
+    "reference": "Needs verification",
+    "lastChecked": "Needs verification"
+  },
+  {
+    "id": "lstm-rainfall-runoff",
+    "name": "LSTM rainfall-runoff modeling",
+    "type": "Method",
+    "categories": [
+      "Machine Learning",
+      "Rainfall-Runoff"
+    ],
+    "description": "Long short-term memory neural-network approaches for rainfall-runoff prediction. Starter entry requiring editorial verification.",
+    "spatialCoverage": "Needs verification",
+    "temporalResolution": "Needs verification",
+    "spatialResolution": "Needs verification",
+    "access": "Needs verification",
+    "useCases": [
+      "Data-driven streamflow simulation",
+      "Regionalization experiments"
+    ],
+    "limitations": [
+      "Model explainability and transferability require careful evaluation"
+    ],
+    "tags": [
+      "Starter entry",
+      "Needs verification",
+      "Deep learning"
+    ],
+    "url": "",
+    "reference": "Needs verification",
+    "lastChecked": "Needs verification"
+  },
+  {
+    "id": "pub-challenge",
+    "name": "Prediction in Ungauged Basins",
+    "type": "Research Challenge",
+    "categories": [
+      "Regionalization",
+      "Hydrologic Prediction"
+    ],
+    "description": "Long-standing hydrology research challenge focused on prediction where direct gauge data are limited or unavailable. Starter entry requiring editorial verification.",
+    "spatialCoverage": "Global",
+    "temporalResolution": "Needs verification",
+    "spatialResolution": "Needs verification",
+    "access": "Not applicable",
+    "useCases": [
+      "Method development and intercomparison",
+      "Transfer learning and regionalization studies"
+    ],
+    "limitations": [
+      "Challenge framing and benchmark definitions vary by study"
+    ],
+    "tags": [
+      "Starter entry",
+      "Needs verification",
+      "PUB"
+    ],
+    "url": "",
+    "reference": "Needs verification",
+    "lastChecked": "Needs verification"
+  }
+]
