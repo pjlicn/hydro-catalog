@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hydrological Research Catalog</title>
+    <meta
+      name="description"
+      content="A curated catalog of hydrological datasets, observation products, models, methods, benchmarks, and research challenges."
+    >
+    <link rel="stylesheet" href="./assets/css/styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <header class="site-header" aria-label="Site header">
+      <div class="container header-inner">
+        <div>
+          <h1>Hydrological Research Catalog</h1>
+          <p class="site-subtitle">
+            A curated, searchable index of hydrological resources for research, education, and practice.
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <main id="main-content" class="container" tabindex="-1">
+      <section class="panel" aria-labelledby="stats-heading">
+        <h2 id="stats-heading">Catalog Statistics</h2>
+        <p id="results-summary" aria-live="polite">Loading catalog...</p>
+        <ul id="type-stats" class="stats-list" aria-label="Counts by resource type"></ul>
+      </section>
+
+      <section class="panel" aria-labelledby="controls-heading">
+        <h2 id="controls-heading">Search, Filter, and Sort</h2>
+        <form id="controls-form" class="controls" action="#" method="get">
+          <div class="field full-width">
+            <label for="search-input">Search catalog</label>
+            <input
+              id="search-input"
+              name="q"
+              type="search"
+              placeholder="Search name, type, description, categories, tags, use cases, spatial coverage"
+              autocomplete="off"
+            >
+          </div>
+
+          <div class="field">
+            <label for="type-filter">Resource type</label>
+            <select id="type-filter" name="type">
+              <option value="">All types</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="category-filter">Category</label>
+            <select id="category-filter" name="category">
+              <option value="">All categories</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="access-filter">Access</label>
+            <select id="access-filter" name="access">
+              <option value="">All access types</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="sort-select">Sort by</label>
+            <select id="sort-select" name="sort">
+              <option value="name">Name (A-Z)</option>
+              <option value="type">Resource type (A-Z)</option>
+              <option value="recent">Most recently checked</option>
+            </select>
+          </div>
+
+          <div class="field controls-actions">
+            <button id="clear-filters" type="button">Clear filters</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel" aria-labelledby="catalog-heading">
+        <div class="section-head">
+          <h2 id="catalog-heading">Catalog</h2>
+          <p id="result-count" aria-live="polite"></p>
+        </div>
+        <div id="catalog-grid" class="catalog-grid" aria-live="polite"></div>
+        <div id="empty-state" class="empty-state" hidden>
+          <h3>No matching resources</h3>
+          <p>Try broadening the search term or clearing one or more filters.</p>
+        </div>
+        <div id="error-state" class="error-state" hidden role="alert"></div>
+      </section>
+
+      <section class="panel" aria-labelledby="about-heading">
+        <h2 id="about-heading">About This Catalog</h2>
+        <p>
+          This MVP catalogs hydrological resources across data, models, methods, benchmarks, and open research
+          challenges.
+        </p>
+        <p>
+          Starter entries are included to establish structure and are marked as requiring editorial verification where
+          metadata is incomplete.
+        </p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>
+          Hydrological Research Catalog MVP.
+          <a href="https://github.com/pjlicn/hydro-catalog" target="_blank" rel="noopener noreferrer">
+            View repository on GitHub
+          </a>
+        </p>
+      </div>
+    </footer>
+
+    <script src="./assets/js/app.js" defer></script>
+  </body>
+</html>
