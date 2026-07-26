@@ -8,404 +8,641 @@
     "Model",
     "Method",
     "Benchmark",
-    "Research Challenge"
+    "Research Challenge",
+    "Software / Platform"
+  ];
+  const THEMES = [
+    {
+      name: "Hydrological Modeling",
+      slug: "hydrological-modeling",
+      icon: "≈",
+      description: "Process-based, conceptual, and routing models"
+    },
+    {
+      name: "Statistical & Analytical Methods",
+      slug: "statistical-analytical-methods",
+      icon: "∿",
+      description: "Time-series, dimensionality, and inference methods"
+    },
+    {
+      name: "Geospatial Computing",
+      slug: "geospatial-computing",
+      icon: "⌖",
+      description: "Desktop, cloud, and library-based spatial tools"
+    },
+    {
+      name: "Machine Learning & Differentiable Modeling",
+      slug: "machine-learning-differentiable-modeling",
+      icon: "δ",
+      description: "Learning systems that connect data and physics"
+    },
+    {
+      name: "Hydrometeorological Data & Platforms",
+      slug: "hydrometeorological-data-platforms",
+      icon: "◉",
+      description: "In situ, satellite, gridded, and archive products"
+    }
+  ];
+  const FILTER_CONFIG = [
+    { key: "types", param: "type", label: "Resource type", itemKey: "type" },
+    { key: "themes", param: "theme", label: "Research theme", itemKey: "themes" },
+    { key: "categories", param: "category", label: "Category", itemKey: "categories" },
+    { key: "access", param: "access", label: "Access", itemKey: "access" },
+    { key: "statuses", param: "status", label: "Verification", itemKey: "verificationStatus" }
   ];
 
   const state = {
     items: [],
     filtered: [],
     query: "",
-    type: "",
-    category: "",
-    access: "",
-    sort: "name"
+    types: [],
+    themes: [],
+    categories: [],
+    access: [],
+    statuses: [],
+    sort: "name",
+    resource: "",
+    lastFocused: null
   };
 
   const els = {
-    searchInput: document.getElementById("search-input"),
-    typeFilter: document.getElementById("type-filter"),
-    categoryFilter: document.getElementById("category-filter"),
-    accessFilter: document.getElementById("access-filter"),
-    sortSelect: document.getElementById("sort-select"),
+    heroForm: document.getElementById("hero-search-form"),
+    heroSearch: document.getElementById("hero-search"),
+    catalogSearch: document.getElementById("catalog-search"),
+    filterGroups: document.getElementById("filter-groups"),
     clearFilters: document.getElementById("clear-filters"),
+    activeFilters: document.getElementById("active-filters"),
+    sortSelect: document.getElementById("sort-select"),
     catalogGrid: document.getElementById("catalog-grid"),
     resultCount: document.getElementById("result-count"),
-    resultsSummary: document.getElementById("results-summary"),
-    typeStats: document.getElementById("type-stats"),
     emptyState: document.getElementById("empty-state"),
-    errorState: document.getElementById("error-state")
+    errorState: document.getElementById("error-state"),
+    themeGrid: document.getElementById("theme-grid"),
+    mobileFilterButton: document.getElementById("mobile-filter-button"),
+    mobileFilterCount: document.getElementById("mobile-filter-count"),
+    mobileFilterClose: document.getElementById("mobile-filter-close"),
+    filterPanel: document.getElementById("filter-panel"),
+    filterBackdrop: document.getElementById("filter-backdrop"),
+    detailPanel: document.getElementById("detail-panel"),
+    detailBackdrop: document.getElementById("detail-backdrop"),
+    detailClose: document.getElementById("detail-close"),
+    detailContent: document.getElementById("detail-content"),
+    stats: {
+      resources: document.getElementById("stat-resources"),
+      types: document.getElementById("stat-types"),
+      verified: document.getElementById("stat-verified")
+    }
   };
 
-  function asText(value, fallback) {
-    if (typeof value === "string") {
-      const trimmed = value.trim();
-      return trimmed ? trimmed : fallback;
-    }
-    return fallback;
+  function text(value, fallback = "") {
+    return typeof value === "string" && value.trim() ? value.trim() : fallback;
   }
 
-  function asArray(value) {
-    if (Array.isArray(value)) {
-      return value
-        .map((v) => (typeof v === "string" ? v.trim() : ""))
-        .filter(Boolean);
-    }
-    return [];
+  function list(value) {
+    return Array.isArray(value)
+      ? value.map((entry) => text(entry)).filter(Boolean)
+      : [];
   }
 
   function normalizeItem(raw, index) {
-    const type = asText(raw.type, "Needs verification");
-    const safeType = ALLOWED_TYPES.includes(type) ? type : "Needs verification";
+    const candidateType = text(raw.type, "Needs verification");
     return {
-      id: asText(raw.id, `item-${index + 1}`),
-      name: asText(raw.name, "Unnamed resource"),
-      type: safeType,
-      categories: asArray(raw.categories),
-      description: asText(raw.description, "Needs verification"),
-      spatialCoverage: asText(raw.spatialCoverage, ""),
-      temporalResolution: asText(raw.temporalResolution, ""),
-      spatialResolution: asText(raw.spatialResolution, ""),
-      access: asText(raw.access, "Needs verification"),
-      useCases: asArray(raw.useCases),
-      limitations: asArray(raw.limitations),
-      tags: asArray(raw.tags),
-      url: asText(raw.url, ""),
-      reference: asText(raw.reference, "Needs verification"),
-      lastChecked: asText(raw.lastChecked, "Needs verification")
+      id: text(raw.id, `resource-${index + 1}`),
+      name: text(raw.name, "Unnamed resource"),
+      type: ALLOWED_TYPES.includes(candidateType) ? candidateType : "Needs verification",
+      themes: list(raw.themes),
+      categories: list(raw.categories),
+      description: text(raw.description, "Description needs verification."),
+      provider: text(raw.provider),
+      spatialCoverage: text(raw.spatialCoverage),
+      temporalResolution: text(raw.temporalResolution),
+      spatialResolution: text(raw.spatialResolution),
+      access: text(raw.access, "Needs verification"),
+      verificationStatus: text(raw.verificationStatus, "Needs verification"),
+      useCases: list(raw.useCases),
+      limitations: list(raw.limitations),
+      tags: list(raw.tags),
+      url: text(raw.url),
+      reference: text(raw.reference),
+      lastChecked: text(raw.lastChecked)
     };
   }
 
-  function parseDateForSort(value) {
-    const parsed = Date.parse(value);
-    return Number.isNaN(parsed) ? Number.NEGATIVE_INFINITY : parsed;
+  function slugForTheme(theme) {
+    const match = THEMES.find((entry) => entry.name === theme);
+    return match ? match.slug : theme.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   }
 
-  function collectSearchText(item) {
-    const pieces = [
+  function themeForSlug(slug) {
+    const match = THEMES.find((entry) => entry.slug === slug);
+    return match ? match.name : "";
+  }
+
+  function uniqueValues(itemKey) {
+    const values = new Set();
+    state.items.forEach((item) => {
+      const value = item[itemKey];
+      if (Array.isArray(value)) {
+        value.forEach((entry) => values.add(entry));
+      } else if (value) {
+        values.add(value);
+      }
+    });
+    return Array.from(values).sort((a, b) => a.localeCompare(b));
+  }
+
+  function countValue(itemKey, value) {
+    return state.items.filter((item) => {
+      const candidate = item[itemKey];
+      return Array.isArray(candidate) ? candidate.includes(value) : candidate === value;
+    }).length;
+  }
+
+  function renderThemes() {
+    els.themeGrid.textContent = "";
+    THEMES.forEach((theme) => {
+      const count = countValue("themes", theme.name);
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "theme-card";
+      button.dataset.theme = theme.name;
+
+      const icon = document.createElement("span");
+      icon.className = "theme-icon";
+      icon.setAttribute("aria-hidden", "true");
+      icon.textContent = theme.icon;
+
+      const title = document.createElement("strong");
+      title.textContent = theme.name;
+      const description = document.createElement("span");
+      description.textContent = theme.description;
+      const total = document.createElement("small");
+      total.textContent = `${count} ${count === 1 ? "resource" : "resources"} →`;
+
+      button.append(icon, title, description, total);
+      button.addEventListener("click", () => {
+        state.themes = [theme.name];
+        syncControls();
+        applyFilters({ scroll: true });
+      });
+      els.themeGrid.appendChild(button);
+    });
+  }
+
+  function renderFilterGroups() {
+    els.filterGroups.textContent = "";
+    FILTER_CONFIG.forEach((config) => {
+      const values = config.key === "themes"
+        ? THEMES.map((theme) => theme.name).filter((value) => countValue(config.itemKey, value))
+        : uniqueValues(config.itemKey);
+      if (!values.length) return;
+
+      const fieldset = document.createElement("fieldset");
+      fieldset.className = "filter-group";
+      const legend = document.createElement("legend");
+      legend.textContent = config.label;
+      fieldset.appendChild(legend);
+
+      values.forEach((value) => {
+        const label = document.createElement("label");
+        label.className = "filter-option";
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.value = value;
+        checkbox.dataset.filterKey = config.key;
+        checkbox.addEventListener("change", handleFilterChange);
+        const name = document.createElement("span");
+        name.textContent = value;
+        const count = document.createElement("span");
+        count.textContent = countValue(config.itemKey, value);
+        label.append(checkbox, name, count);
+        fieldset.appendChild(label);
+      });
+      els.filterGroups.appendChild(fieldset);
+    });
+  }
+
+  function handleFilterChange(event) {
+    const key = event.target.dataset.filterKey;
+    const selected = Array.from(els.filterGroups.querySelectorAll(`input[data-filter-key="${key}"]:checked`))
+      .map((input) => input.value);
+    state[key] = selected;
+    applyFilters();
+  }
+
+  function readUrlState() {
+    const params = new URLSearchParams(window.location.search);
+    state.query = params.get("q") || "";
+    FILTER_CONFIG.forEach((config) => {
+      const values = params.getAll(config.param);
+      state[config.key] = config.key === "themes"
+        ? values.map(themeForSlug).filter(Boolean)
+        : values;
+    });
+    state.sort = ["name", "type", "recent"].includes(params.get("sort")) ? params.get("sort") : "name";
+    state.resource = params.get("resource") || "";
+  }
+
+  function writeUrlState(mode = "replace") {
+    const params = new URLSearchParams();
+    if (state.query) params.set("q", state.query);
+    FILTER_CONFIG.forEach((config) => {
+      state[config.key].forEach((value) => {
+        params.append(config.param, config.key === "themes" ? slugForTheme(value) : value);
+      });
+    });
+    if (state.sort !== "name") params.set("sort", state.sort);
+    if (state.resource) params.set("resource", state.resource);
+    const queryString = params.toString();
+    const nextUrl = `${window.location.pathname}${queryString ? `?${queryString}` : ""}${window.location.hash || ""}`;
+    window.history[mode === "push" ? "pushState" : "replaceState"]({}, "", nextUrl);
+  }
+
+  function syncControls() {
+    els.heroSearch.value = state.query;
+    els.catalogSearch.value = state.query;
+    els.sortSelect.value = state.sort;
+    els.filterGroups.querySelectorAll("input[data-filter-key]").forEach((input) => {
+      input.checked = state[input.dataset.filterKey].includes(input.value);
+    });
+  }
+
+  function itemSearchText(item) {
+    return [
       item.name,
       item.type,
       item.description,
+      item.provider,
       item.spatialCoverage,
+      ...item.themes,
       ...item.categories,
       ...item.tags,
       ...item.useCases
-    ];
-    return pieces.join(" ").toLowerCase();
+    ].join(" ").toLowerCase();
   }
 
-  function updateFilterOptions() {
-    const categories = new Set();
-    const accessValues = new Set();
-    const typeValues = new Set();
-
-    state.items.forEach((item) => {
-      typeValues.add(item.type);
-      item.categories.forEach((c) => categories.add(c));
-      if (item.access) {
-        accessValues.add(item.access);
-      }
-    });
-
-    fillSelect(els.typeFilter, Array.from(typeValues).sort());
-    fillSelect(els.categoryFilter, Array.from(categories).sort());
-    fillSelect(els.accessFilter, Array.from(accessValues).sort());
+  function matchesSelected(itemValue, selected) {
+    if (!selected.length) return true;
+    return Array.isArray(itemValue)
+      ? selected.some((value) => itemValue.includes(value))
+      : selected.includes(itemValue);
   }
 
-  function fillSelect(selectEl, values) {
-    const firstOption = selectEl.options[0];
-    while (selectEl.options.length > 1) {
-      selectEl.remove(1);
-    }
-    values.forEach((value) => {
-      const opt = document.createElement("option");
-      opt.value = value;
-      opt.textContent = value;
-      selectEl.appendChild(opt);
-    });
-    if (firstOption) {
-      firstOption.selected = selectEl.value === "";
-    }
-  }
-
-  function applyFilters() {
-    const q = state.query.trim().toLowerCase();
-
+  function applyFilters(options = {}) {
+    const query = state.query.trim().toLowerCase();
     state.filtered = state.items.filter((item) => {
-      if (q && !collectSearchText(item).includes(q)) {
-        return false;
-      }
-      if (state.type && item.type !== state.type) {
-        return false;
-      }
-      if (state.category && !item.categories.includes(state.category)) {
-        return false;
-      }
-      if (state.access && item.access !== state.access) {
-        return false;
-      }
-      return true;
+      if (query && !itemSearchText(item).includes(query)) return false;
+      return FILTER_CONFIG.every((config) => matchesSelected(item[config.itemKey], state[config.key]));
     });
 
-    sortItems(state.filtered, state.sort);
-    renderAll();
-  }
-
-  function sortItems(items, sortType) {
-    items.sort((a, b) => {
-      if (sortType === "type") {
-        return a.type.localeCompare(b.type) || a.name.localeCompare(b.name);
-      }
-      if (sortType === "recent") {
-        const diff = parseDateForSort(b.lastChecked) - parseDateForSort(a.lastChecked);
-        return diff || a.name.localeCompare(b.name);
+    state.filtered.sort((a, b) => {
+      if (state.sort === "type") return a.type.localeCompare(b.type) || a.name.localeCompare(b.name);
+      if (state.sort === "recent") {
+        const aDate = Date.parse(a.lastChecked) || Number.NEGATIVE_INFINITY;
+        const bDate = Date.parse(b.lastChecked) || Number.NEGATIVE_INFINITY;
+        return bDate - aDate || a.name.localeCompare(b.name);
       }
       return a.name.localeCompare(b.name);
     });
+
+    renderResults();
+    renderActiveFilters();
+    writeUrlState();
+    if (options.scroll) {
+      document.getElementById("catalog").scrollIntoView({ behavior: "smooth" });
+    }
   }
 
-  function renderAll() {
-    renderStats();
-    renderResultCount();
-    renderCards();
+  function statusClass(status) {
+    if (status === "Verified") return "verified";
+    if (status === "Needs verification") return "needs-verification";
+    return "";
   }
 
-  function renderStats() {
-    const countMap = new Map();
-    ALLOWED_TYPES.forEach((type) => countMap.set(type, 0));
-
-    state.filtered.forEach((item) => {
-      if (!countMap.has(item.type)) {
-        countMap.set(item.type, 0);
-      }
-      countMap.set(item.type, countMap.get(item.type) + 1);
-    });
-
-    els.resultsSummary.textContent = `Resources shown: ${state.filtered.length} of ${state.items.length}`;
-    els.typeStats.textContent = "";
-
-    countMap.forEach((count, type) => {
-      const li = document.createElement("li");
-      li.textContent = `${type}: ${count}`;
-      els.typeStats.appendChild(li);
-    });
+  function createBadge(label, className) {
+    const badge = document.createElement("span");
+    badge.className = className;
+    badge.textContent = label;
+    return badge;
   }
 
-  function renderResultCount() {
-    const count = state.filtered.length;
-    els.resultCount.textContent = count === 1 ? "1 resource" : `${count} resources`;
-  }
-
-  function renderCards() {
+  function renderResults() {
     els.catalogGrid.textContent = "";
+    els.emptyState.hidden = state.filtered.length !== 0;
+    const resultTotal = document.createElement("strong");
+    resultTotal.textContent = state.filtered.length;
+    els.resultCount.textContent = "";
+    els.resultCount.append(
+      resultTotal,
+      document.createTextNode(` ${state.filtered.length === 1 ? "resource" : "resources"} found`)
+    );
+    if (!state.filtered.length) return;
 
-    if (state.filtered.length === 0) {
-      els.emptyState.hidden = false;
-      return;
-    }
-
-    els.emptyState.hidden = true;
-    const frag = document.createDocumentFragment();
+    const fragment = document.createDocumentFragment();
     state.filtered.forEach((item) => {
-      frag.appendChild(buildCard(item));
-    });
-    els.catalogGrid.appendChild(frag);
-  }
+      const card = document.createElement("article");
+      card.className = "resource-card";
+      card.tabIndex = 0;
+      card.setAttribute("role", "button");
+      card.setAttribute("aria-label", `View details for ${item.name}`);
+      card.dataset.resourceId = item.id;
 
-  function appendMeta(list, label, value) {
-    if (!value) {
-      return;
-    }
-    const li = document.createElement("li");
-    const span = document.createElement("span");
-    span.className = "meta-label";
-    span.textContent = `${label}: `;
-    li.appendChild(span);
-    li.append(document.createTextNode(value));
-    list.appendChild(li);
-  }
+      const top = document.createElement("div");
+      top.className = "card-top";
+      const title = document.createElement("h3");
+      title.textContent = item.name;
+      top.append(title, createBadge(item.type, "type-badge"));
 
-  function appendDetailList(parent, title, values) {
-    const block = document.createElement("div");
-    block.className = "detail-block";
-    const heading = document.createElement("h4");
-    heading.textContent = title;
-    block.appendChild(heading);
+      const description = document.createElement("p");
+      description.className = "card-description";
+      description.textContent = item.description;
 
-    if (!values.length) {
-      const p = document.createElement("p");
-      p.textContent = "Needs verification";
-      block.appendChild(p);
-    } else {
-      const ul = document.createElement("ul");
-      values.forEach((v) => {
-        const li = document.createElement("li");
-        li.textContent = v;
-        ul.appendChild(li);
+      const tagRow = document.createElement("div");
+      tagRow.className = "tag-row";
+      [...item.categories, ...item.tags].slice(0, 4).forEach((tag) => {
+        tagRow.appendChild(createBadge(tag, "tag"));
       });
-      block.appendChild(ul);
-    }
-    parent.appendChild(block);
+
+      const footer = document.createElement("div");
+      footer.className = "card-footer";
+      footer.append(
+        createBadge(item.verificationStatus, `status-badge ${statusClass(item.verificationStatus)}`),
+        createBadge("View details →", "card-open")
+      );
+
+      card.append(top, description, tagRow, footer);
+      card.addEventListener("click", () => openDetail(item.id, card));
+      card.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openDetail(item.id, card);
+        }
+      });
+      fragment.appendChild(card);
+    });
+    els.catalogGrid.appendChild(fragment);
   }
 
-  function buildCard(item) {
-    const article = document.createElement("article");
-    article.className = "catalog-card";
-    article.setAttribute("aria-labelledby", `${item.id}-title`);
-
-    const cardHead = document.createElement("div");
-    cardHead.className = "card-head";
-
-    const title = document.createElement("h3");
-    title.id = `${item.id}-title`;
-    title.textContent = item.name;
-    cardHead.appendChild(title);
-
-    const typeBadge = document.createElement("span");
-    typeBadge.className = "resource-type";
-    typeBadge.textContent = item.type;
-    cardHead.appendChild(typeBadge);
-    article.appendChild(cardHead);
-
-    const desc = document.createElement("p");
-    desc.className = "description";
-    desc.textContent = item.description;
-    article.appendChild(desc);
-
-    const tags = document.createElement("ul");
-    tags.className = "tag-list";
-    const chosenTags = item.tags.length ? item.tags.slice(0, 6) : ["Needs verification"];
-    chosenTags.forEach((tag) => {
-      const li = document.createElement("li");
-      li.textContent = tag;
-      tags.appendChild(li);
+  function renderActiveFilters() {
+    els.activeFilters.textContent = "";
+    const chips = [];
+    if (state.query) chips.push({ key: "query", value: state.query, label: `Search: ${state.query}` });
+    FILTER_CONFIG.forEach((config) => {
+      state[config.key].forEach((value) => chips.push({ key: config.key, value, label: value }));
     });
-    article.appendChild(tags);
 
-    const meta = document.createElement("ul");
-    meta.className = "meta-list";
-    appendMeta(meta, "Spatial coverage", item.spatialCoverage || "Needs verification");
-    appendMeta(meta, "Temporal resolution", item.temporalResolution || "Needs verification");
-    appendMeta(meta, "Access", item.access || "Needs verification");
-    appendMeta(meta, "Last checked", item.lastChecked || "Needs verification");
-    article.appendChild(meta);
+    chips.forEach((chip) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "filter-chip";
+      button.setAttribute("aria-label", `Remove filter ${chip.label}`);
+      button.append(document.createTextNode(chip.label), createBadge("×", ""));
+      button.addEventListener("click", () => {
+        if (chip.key === "query") state.query = "";
+        else state[chip.key] = state[chip.key].filter((value) => value !== chip.value);
+        syncControls();
+        applyFilters();
+      });
+      els.activeFilters.appendChild(button);
+    });
+
+    const count = chips.length;
+    els.mobileFilterCount.textContent = count ? `(${count})` : "";
+  }
+
+  function clearFilters() {
+    state.query = "";
+    FILTER_CONFIG.forEach((config) => { state[config.key] = []; });
+    state.sort = "name";
+    syncControls();
+    applyFilters();
+  }
+
+  function appendDefinition(listElement, label, value) {
+    if (!value) return;
+    const wrapper = document.createElement("div");
+    const term = document.createElement("dt");
+    term.textContent = label;
+    const definition = document.createElement("dd");
+    definition.textContent = value;
+    wrapper.append(term, definition);
+    listElement.appendChild(wrapper);
+  }
+
+  function appendListSection(parent, headingText, values) {
+    if (!values.length) return;
+    const section = document.createElement("section");
+    section.className = "detail-section";
+    const heading = document.createElement("h3");
+    heading.textContent = headingText;
+    const listElement = document.createElement("ul");
+    values.forEach((value) => {
+      const item = document.createElement("li");
+      item.textContent = value;
+      listElement.appendChild(item);
+    });
+    section.append(heading, listElement);
+    parent.appendChild(section);
+  }
+
+  function renderDetail(item) {
+    els.detailContent.textContent = "";
+    const hero = document.createElement("div");
+    hero.className = "detail-hero";
+    const badges = document.createElement("div");
+    badges.className = "detail-badges";
+    badges.append(
+      createBadge(item.type, "type-badge"),
+      createBadge(item.verificationStatus, `status-badge ${statusClass(item.verificationStatus)}`)
+    );
+    const title = document.createElement("h2");
+    title.id = "detail-title";
+    title.textContent = item.name;
+    const description = document.createElement("p");
+    description.textContent = item.description;
+    const tags = document.createElement("div");
+    tags.className = "tag-row";
+    item.themes.forEach((theme) => tags.appendChild(createBadge(theme, "tag")));
+    hero.append(badges, title, description, tags);
+
+    const metaSection = document.createElement("section");
+    metaSection.className = "detail-section";
+    const metaHeading = document.createElement("h3");
+    metaHeading.textContent = "Resource profile";
+    const meta = document.createElement("dl");
+    meta.className = "detail-meta";
+    appendDefinition(meta, "Provider", item.provider);
+    appendDefinition(meta, "Access", item.access);
+    appendDefinition(meta, "Spatial coverage", item.spatialCoverage);
+    appendDefinition(meta, "Spatial resolution", item.spatialResolution);
+    appendDefinition(meta, "Temporal resolution", item.temporalResolution);
+    appendDefinition(meta, "Last checked", item.lastChecked);
+    metaSection.append(metaHeading, meta);
+
+    els.detailContent.append(hero, metaSection);
+    appendListSection(els.detailContent, "Use cases", item.useCases);
+    appendListSection(els.detailContent, "Limitations", item.limitations);
+
+    if (item.reference) {
+      const referenceSection = document.createElement("section");
+      referenceSection.className = "detail-section";
+      const referenceHeading = document.createElement("h3");
+      referenceHeading.textContent = "Reference";
+      const reference = document.createElement("p");
+      reference.className = "detail-reference";
+      reference.textContent = item.reference;
+      referenceSection.append(referenceHeading, reference);
+      els.detailContent.appendChild(referenceSection);
+    }
 
     if (item.url) {
       const link = document.createElement("a");
-      link.className = "card-link";
+      link.className = "official-link";
       link.href = item.url;
       link.target = "_blank";
       link.rel = "noopener noreferrer";
-      link.textContent = `Open external resource: ${item.name}`;
-      article.appendChild(link);
-    } else {
-      const noLink = document.createElement("p");
-      noLink.className = "detail-block";
-      noLink.textContent = "External resource link: Needs verification";
-      article.appendChild(noLink);
+      link.textContent = "Open official resource ↗";
+      els.detailContent.appendChild(link);
     }
-
-    const details = document.createElement("details");
-    const summary = document.createElement("summary");
-    summary.textContent = "Use cases, limitations, and reference";
-    details.appendChild(summary);
-
-    appendDetailList(details, "Use cases", item.useCases);
-    appendDetailList(details, "Limitations", item.limitations);
-
-    const reference = document.createElement("div");
-    reference.className = "detail-block";
-    const refHeading = document.createElement("h4");
-    refHeading.textContent = "Reference";
-    const refText = document.createElement("p");
-    refText.textContent = item.reference || "Needs verification";
-    reference.appendChild(refHeading);
-    reference.appendChild(refText);
-    details.appendChild(reference);
-
-    article.appendChild(details);
-    return article;
   }
 
-  function setError(message) {
-    els.errorState.hidden = false;
-    els.errorState.textContent = message;
+  function openDetail(id, trigger, historyMode = "push") {
+    const item = state.items.find((entry) => entry.id === id);
+    if (!item) {
+      state.resource = "";
+      writeUrlState();
+      closeDetail(false);
+      return;
+    }
+    state.lastFocused = trigger || document.activeElement;
+    state.resource = id;
+    renderDetail(item);
+    els.detailPanel.classList.add("open");
+    els.detailPanel.setAttribute("aria-hidden", "false");
+    els.detailBackdrop.hidden = false;
+    document.body.classList.add("panel-open");
+    if (historyMode) writeUrlState(historyMode);
+    window.setTimeout(() => els.detailClose.focus(), 0);
   }
 
-  function clearError() {
-    els.errorState.hidden = true;
-    els.errorState.textContent = "";
+  function closeDetail(updateHistory = true) {
+    const wasOpen = els.detailPanel.classList.contains("open");
+    els.detailPanel.classList.remove("open");
+    els.detailPanel.setAttribute("aria-hidden", "true");
+    els.detailBackdrop.hidden = true;
+    state.resource = "";
+    if (!els.filterPanel.classList.contains("open")) document.body.classList.remove("panel-open");
+    if (updateHistory) writeUrlState("push");
+    if (wasOpen && state.lastFocused && document.contains(state.lastFocused)) state.lastFocused.focus();
+  }
+
+  function openMobileFilters() {
+    els.filterPanel.classList.add("open");
+    els.mobileFilterButton.setAttribute("aria-expanded", "true");
+    els.filterBackdrop.hidden = false;
+    document.body.classList.add("panel-open");
+    els.mobileFilterClose.focus();
+  }
+
+  function closeMobileFilters() {
+    els.filterPanel.classList.remove("open");
+    els.mobileFilterButton.setAttribute("aria-expanded", "false");
+    els.filterBackdrop.hidden = true;
+    if (!els.detailPanel.classList.contains("open")) document.body.classList.remove("panel-open");
+    els.mobileFilterButton.focus();
+  }
+
+  function trapFocus(event, container) {
+    if (event.key !== "Tab") return;
+    const focusable = Array.from(container.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'))
+      .filter((element) => element.offsetParent !== null);
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
   }
 
   function wireEvents() {
-    els.searchInput.addEventListener("input", () => {
-      state.query = els.searchInput.value;
+    els.heroForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      state.query = els.heroSearch.value;
+      syncControls();
+      applyFilters({ scroll: true });
+    });
+    document.querySelectorAll("[data-search]").forEach((button) => {
+      button.addEventListener("click", () => {
+        state.query = button.dataset.search;
+        syncControls();
+        applyFilters({ scroll: true });
+      });
+    });
+    els.catalogSearch.addEventListener("input", () => {
+      state.query = els.catalogSearch.value;
+      els.heroSearch.value = state.query;
       applyFilters();
     });
-
-    els.typeFilter.addEventListener("change", () => {
-      state.type = els.typeFilter.value;
-      applyFilters();
-    });
-
-    els.categoryFilter.addEventListener("change", () => {
-      state.category = els.categoryFilter.value;
-      applyFilters();
-    });
-
-    els.accessFilter.addEventListener("change", () => {
-      state.access = els.accessFilter.value;
-      applyFilters();
-    });
-
     els.sortSelect.addEventListener("change", () => {
       state.sort = els.sortSelect.value;
       applyFilters();
     });
+    els.clearFilters.addEventListener("click", clearFilters);
+    els.emptyState.querySelector("button").addEventListener("click", clearFilters);
+    els.mobileFilterButton.addEventListener("click", openMobileFilters);
+    els.mobileFilterClose.addEventListener("click", closeMobileFilters);
+    els.filterBackdrop.addEventListener("click", closeMobileFilters);
+    els.detailClose.addEventListener("click", () => closeDetail());
+    els.detailBackdrop.addEventListener("click", () => closeDetail());
 
-    els.clearFilters.addEventListener("click", () => {
-      els.searchInput.value = "";
-      els.typeFilter.value = "";
-      els.categoryFilter.value = "";
-      els.accessFilter.value = "";
-      els.sortSelect.value = "name";
-
-      state.query = "";
-      state.type = "";
-      state.category = "";
-      state.access = "";
-      state.sort = "name";
-      applyFilters();
-      els.searchInput.focus();
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        if (els.detailPanel.classList.contains("open")) closeDetail();
+        else if (els.filterPanel.classList.contains("open")) closeMobileFilters();
+      }
+      if (els.detailPanel.classList.contains("open")) trapFocus(event, els.detailPanel);
+      else if (els.filterPanel.classList.contains("open")) trapFocus(event, els.filterPanel);
     });
+
+    window.addEventListener("popstate", () => {
+      const previousResource = state.resource;
+      readUrlState();
+      syncControls();
+      applyFilters();
+      if (state.resource) openDetail(state.resource, null, null);
+      else if (previousResource) closeDetail(false);
+    });
+  }
+
+  function updateStats() {
+    els.stats.resources.textContent = state.items.length;
+    els.stats.types.textContent = new Set(state.items.map((item) => item.type)).size;
+    els.stats.verified.textContent = state.items.filter((item) => item.verificationStatus === "Verified").length;
   }
 
   async function init() {
     wireEvents();
-
     try {
-      clearError();
       const response = await fetch(DATA_PATH, { cache: "no-store" });
-      if (!response.ok) {
-        throw new Error(`Catalog file could not be loaded (${response.status}).`);
-      }
-
+      if (!response.ok) throw new Error(`Catalog request failed with status ${response.status}.`);
       const payload = await response.json();
-      if (!Array.isArray(payload)) {
-        throw new Error("Catalog data must be a JSON array.");
-      }
-
+      if (!Array.isArray(payload)) throw new Error("Catalog data must be a JSON array.");
       state.items = payload.map(normalizeItem);
-      updateFilterOptions();
+      renderThemes();
+      renderFilterGroups();
+      readUrlState();
+      syncControls();
       applyFilters();
+      updateStats();
+      if (state.resource) openDetail(state.resource, null, null);
     } catch (error) {
-      setError(
-        "Unable to load catalog data. Start a local web server (for example: python -m http.server 8000) and reload."
-      );
-      els.resultsSummary.textContent = "Catalog unavailable";
-      els.resultCount.textContent = "0 resources";
-      els.typeStats.textContent = "";
-      els.catalogGrid.textContent = "";
-      els.emptyState.hidden = true;
+      els.errorState.hidden = false;
+      els.errorState.textContent = "The catalog could not be loaded. Run this project through a local HTTP server and try again.";
+      els.resultCount.textContent = "Catalog unavailable";
       console.error(error);
     }
   }

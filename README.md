@@ -1,116 +1,106 @@
-# Hydrological Research Catalog (MVP)
+# Hydrological Research Catalog
 
-A static GitHub Pages project site for curating hydrological datasets, observation products, models, methods, benchmarks, and research challenges.
+A curated, searchable guide to hydrological datasets, observation products, models, analytical methods, research
+challenges, and software platforms. The site is a dependency-free static application designed for GitHub Pages.
 
-Editorial note: this MVP includes starter entries marked for verification. Treat technical metadata as draft until reviewed by domain editors.
+## What the catalog covers
 
-## Project Purpose
+Resources are organized around five research themes:
 
-The Hydrological Research Catalog provides a searchable, filterable index of hydrology resources for researchers, students, and practitioners. The MVP focuses on transparent curation with minimal dependencies and straightforward maintenance.
+- Hydrological Modeling
+- Statistical & Analytical Methods
+- Geospatial Computing
+- Machine Learning & Differentiable Modeling
+- Hydrometeorological Data & Platforms
 
-## Directory Structure
+The interface provides full-text search, multi-select filters, sorting, shareable URL state, responsive resource cards,
+and an accessible detail panel. All filtering and rendering happen in the browser.
 
-```
+## Project structure
+
+```text
 .
-|-- .github/
-|   `-- copilot-instructions.md
-|-- .nojekyll
-|-- 404.html
 |-- assets/
-|   |-- css/
-|   |   `-- styles.css
-|   `-- js/
-|       `-- app.js
-|-- data/
-|   `-- catalog.json
+|   |-- css/styles.css
+|   `-- js/app.js
+|-- data/catalog.json
+|-- scripts/validate_catalog.py
 |-- index.html
+|-- 404.html
 `-- README.md
 ```
 
-## Local Preview
+## Local preview
 
-Use a local HTTP server (required because the app fetches JSON):
+The application fetches its JSON data, so it must run through HTTP rather than `file://`.
 
 ```bash
 python -m http.server 8000
 ```
 
-Then open:
+Open `http://localhost:8000/`.
 
+## Validate the catalog
+
+The validator uses only the Python standard library:
+
+```bash
+python scripts/validate_catalog.py
 ```
-http://localhost:8000/
-```
 
-Do not rely on opening `index.html` via `file://` because browsers block fetch access in many local file contexts.
-
-## Add or Edit a Catalog Entry
-
-1. Open `data/catalog.json`.
-2. Add or edit an object in the top-level array.
-3. Keep the `id` unique.
-4. Use one of the allowed `type` values:
-	- Dataset
-	- Observation Product
-	- Model
-	- Method
-	- Benchmark
-	- Research Challenge
-5. Leave unknown values as empty strings/arrays or set to `Needs verification`.
-6. Save and refresh the page.
-
-## JSON Field Definitions
-
-Each resource item supports:
-
-- `id`: stable unique identifier string.
-- `name`: display name.
-- `type`: one of the supported top-level resource types.
-- `categories`: list of thematic categories.
-- `description`: short plain-language summary.
-- `spatialCoverage`: geographic scope.
-- `temporalResolution`: time-step/frequency.
-- `spatialResolution`: grid or station resolution.
-- `access`: access status (for example, Open, Registration, Mixed).
-- `useCases`: list of common uses.
-- `limitations`: list of known caveats.
-- `tags`: list of keywords for discovery.
-- `url`: primary external resource URL.
-- `reference`: citation text, DOI text, or verification note.
-- `lastChecked`: ISO-like date string (`YYYY-MM-DD`) or `Needs verification`.
-
-Optional fields may be empty or omitted. The UI is designed to handle missing values safely.
-
-## JSON Validation Command
+For syntax-only validation:
 
 ```bash
 python -m json.tool data/catalog.json
 ```
 
-## GitHub Pages Deployment
+## Add or edit a resource
 
-This repository is intended as a project site at:
+Edit `data/catalog.json`. Every entry requires:
 
+- `id`: unique lowercase kebab-case identifier.
+- `name`: public resource name.
+- `type`: `Dataset`, `Observation Product`, `Model`, `Method`, `Benchmark`, `Research Challenge`, or
+  `Software / Platform`.
+- `themes`: one or more of the five controlled research themes above.
+- `categories`: specific discovery categories.
+- `description`: concise plain-language summary.
+- `provider`: maintaining organization or research community.
+- `access`: access description such as `Open`, `Registration`, `Licensed`, `Mixed`, or `Open literature`.
+- `verificationStatus`: `Verified`, `Partially verified`, or `Needs verification`.
+- `useCases`, `limitations`, and `tags`: non-empty string arrays.
+- `url`: primary official project, documentation, or publication URL.
+- `reference`: official citation or primary reference.
+- `lastChecked`: the actual source-review date in `YYYY-MM-DD` format.
+
+Spatial and temporal fields may be empty when they do not apply, especially for software and general methods.
+
+## URL state
+
+Search and filter state is encoded in query parameters so a catalog view can be shared:
+
+```text
+?q=soil+moisture&type=Dataset&theme=hydrometeorological-data-platforms
 ```
+
+Resource details use `resource=<id>` and work with browser forward/back navigation.
+
+## Editorial policy
+
+- Prefer official project pages, official documentation, data-provider pages, and primary literature.
+- Never infer DOI values, licensing, coverage, resolution, access conditions, or verification dates.
+- Use `Partially verified` when the resource identity and core description are sourced but important metadata remains
+  uncertain.
+- Use `Needs verification` for draft records that have not received source review.
+- Keep limitations and appropriate use cases alongside descriptive metadata.
+- Run the validator after every catalog change.
+
+## GitHub Pages
+
+The site uses relative paths and includes `.nojekyll`, so it works as a project site under:
+
+```text
 https://pjlicn.github.io/hydro-catalog/
 ```
 
-Deployment checklist:
-
-1. Confirm all asset/data links are relative (for example `./assets/...`, `./data/...`).
-2. Ensure `.nojekyll` exists in repository root.
-3. In GitHub repository settings, enable Pages from the default branch and root folder.
-4. After publishing, verify the site loads under `/hydro-catalog/`.
-
-## Editorial Verification Policy
-
-- Starter entries are seed records and are not final authoritative metadata.
-- Never invent references, DOI values, URLs, or technical specifications.
-- If uncertain, use an empty value or `Needs verification`.
-- Run periodic metadata checks and update `lastChecked` only after verification.
-
-## Known MVP Limitations
-
-- No backend, authentication, or database.
-- No advanced faceted analytics beyond client-side filtering/sorting.
-- No pagination yet; very large catalogs may require performance tuning.
-- Starter content requires human editorial review before production-grade use.
+No build step, package manager, backend, authentication, or database is required.
