@@ -215,6 +215,8 @@ nav .repo-link { padding: 9px 15px; border: 1px solid rgba(255,255,255,.28); bor
 .footer-grid a { text-decoration: none; }
 .footer-grid a:hover { color: white; }
 .footer-bottom { padding-block: 17px; display: flex; justify-content: space-between; gap: 20px; color: #789ba0; border-top: 1px solid rgba(255,255,255,.1); font-size: .72rem; }
+.footer-bottom a { color: #bcd6d8; text-underline-offset: 3px; }
+.footer-bottom a:hover { color: white; }
 
 .backdrop { position: fixed; z-index: 80; inset: 0; background: rgba(1, 25, 33, .55); backdrop-filter: blur(3px); }
 .detail-backdrop { z-index: 90; }
@@ -238,6 +240,9 @@ nav .repo-link { padding: 9px 15px; border: 1px solid rgba(255,255,255,.28); bor
 .detail-section ul { margin: 0; padding-left: 20px; color: var(--ink-soft); }
 .detail-section li + li { margin-top: 7px; }
 .detail-reference { overflow-wrap: anywhere; color: var(--ink-soft); font-size: .85rem; }
+.inline-citations { white-space: normal; }
+.inline-citations a { color: var(--blue); text-decoration: none; white-space: nowrap; }
+.inline-citations a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .official-link {
   margin-top: 25px; padding: 12px 18px; display: inline-flex; align-items: center; gap: 9px;
   color: white; background: var(--teal); border-radius: 9px; text-decoration: none; font-weight: 750;
@@ -251,6 +256,29 @@ nav .repo-link { padding: 9px 15px; border: 1px solid rgba(255,255,255,.28); bor
 .not-found-main .error-code { margin-bottom: -25px; color: rgba(112, 216, 202, .12); font: 500 clamp(8rem, 30vw, 15rem)/.7 var(--serif); }
 .not-found-main h1 { margin-bottom: 20px; font-size: clamp(2.5rem, 7vw, 4.6rem); line-height: 1; }
 .not-found-main section > p:not(.eyebrow, .error-code) { max-width: 570px; margin-inline: auto; color: #c4dadd; }
+
+.references-hero { padding-block: 82px 88px; color: white; background: var(--navy); }
+.references-page { scroll-behavior: auto; }
+.references-hero h1 { margin-bottom: 20px; font-size: clamp(3.5rem, 8vw, 6rem); line-height: .95; }
+.references-hero p:last-child { max-width: 660px; margin-bottom: 0; color: #c4dadd; font-size: 1.05rem; }
+.references-section { padding-block: 78px 105px; }
+.references-layout { display: grid; grid-template-columns: 220px 1fr; gap: 70px; align-items: start; }
+.references-layout aside { position: sticky; top: 110px; color: var(--ink-soft); font-size: .88rem; }
+.references-layout aside a { color: var(--blue); font-weight: 700; text-decoration: none; }
+.references-list { margin: 0; padding: 0; list-style: none; counter-reset: references; }
+.references-list li {
+  position: relative; padding: 0 0 25px 42px; margin-bottom: 25px;
+  border-bottom: 1px solid var(--line); scroll-margin-top: 120px; counter-increment: references;
+}
+.references-list li::before {
+  content: counter(references) "."; position: absolute; left: 0; top: 0;
+  color: var(--teal); font: 600 1rem var(--serif);
+}
+.references-list li:target { margin-inline: -18px; padding: 18px 18px 25px 60px; background: var(--mint); border-radius: 10px; }
+.references-list li:target::before { left: 18px; top: 18px; }
+.references-list p { margin-bottom: 8px; line-height: 1.7; }
+.references-list a { color: var(--blue); font-size: .78rem; font-weight: 750; text-decoration: none; }
+.references-list a:hover { text-decoration: underline; text-underline-offset: 3px; }
 
 @media (max-width: 1000px) {
   .theme-grid { grid-template-columns: repeat(3, 1fr); }
@@ -286,6 +314,8 @@ nav .repo-link { padding: 9px 15px; border: 1px solid rgba(255,255,255,.28); bor
   .methodology-grid { grid-template-columns: 1fr; gap: 35px; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .footer-grid > div:first-child { grid-column: 1 / -1; }
+  .references-layout { grid-template-columns: 1fr; gap: 38px; }
+  .references-layout aside { position: static; }
 }
 
 @media (max-width: 480px) {

@@ -2,6 +2,7 @@
   "use strict";
 
   const DATA_PATH = "./data/catalog.json";
+  const REFERENCES_PATH = "./data/references.json";
   const ALLOWED_TYPES = [
     "Dataset",
     "Observation Product",
@@ -53,6 +54,7 @@
 
   const state = {
     items: [],
+    references: new Map(),
     filtered: [],
     query: "",
     types: [],
@@ -123,9 +125,25 @@
       limitations: list(raw.limitations),
       tags: list(raw.tags),
       url: text(raw.url),
-      reference: text(raw.reference),
+      referenceIds: list(raw.referenceIds),
       lastChecked: text(raw.lastChecked)
     };
+  }
+
+  function normalizeReference(raw) {
+    return {
+      id: text(raw.id),
+      short: text(raw.short),
+      citation: text(raw.citation),
+      url: text(raw.url)
+    };
+  }
+
+  function referencesForResource(item) {
+    return item.referenceIds
+      .map((id) => state.references.get(id))
+      .filter(Boolean)
+      .sort((a, b) => a.short.localeCompare(b.short));
   }
 
   function slugForTheme(theme) {
@@ -460,6 +478,23 @@
     title.textContent = item.name;
     const description = document.createElement("p");
     description.textContent = item.description;
+    const relatedReferences = referencesForResource(item);
+    if (relatedReferences.length) {
+      description.append(document.createTextNode(" "));
+      const citations = document.createElement("span");
+      citations.className = "inline-citations";
+      citations.append(document.createTextNode("("));
+      relatedReferences.forEach((reference, index) => {
+        if (index) citations.append(document.createTextNode("; "));
+        const citationLink = document.createElement("a");
+        citationLink.href = `./references.html#${reference.id}`;
+        citationLink.textContent = reference.short;
+        citationLink.setAttribute("aria-label", `View reference for ${reference.short}`);
+        citations.appendChild(citationLink);
+      });
+      citations.append(document.createTextNode(")"));
+      description.appendChild(citations);
+    }
     const tags = document.createElement("div");
     tags.className = "tag-row";
     item.themes.forEach((theme) => tags.appendChild(createBadge(theme, "tag")));
@@ -482,18 +517,6 @@
     els.detailContent.append(hero, metaSection);
     appendListSection(els.detailContent, "Use cases", item.useCases);
     appendListSection(els.detailContent, "Limitations", item.limitations);
-
-    if (item.reference) {
-      const referenceSection = document.createElement("section");
-      referenceSection.className = "detail-section";
-      const referenceHeading = document.createElement("h3");
-      referenceHeading.textContent = "Reference";
-      const reference = document.createElement("p");
-      reference.className = "detail-reference";
-      reference.textContent = item.reference;
-      referenceSection.append(referenceHeading, reference);
-      els.detailContent.appendChild(referenceSection);
-    }
 
     if (item.url) {
       const link = document.createElement("a");
@@ -627,11 +650,24 @@
   async function init() {
     wireEvents();
     try {
-      const response = await fetch(DATA_PATH, { cache: "no-store" });
-      if (!response.ok) throw new Error(`Catalog request failed with status ${response.status}.`);
-      const payload = await response.json();
+      const [catalogResponse, referencesResponse] = await Promise.all([
+        fetch(DATA_PATH, { cache: "no-store" }),
+        fetch(REFERENCES_PATH, { cache: "no-store" })
+      ]);
+      if (!catalogResponse.ok) throw new Error(`Catalog request failed with status ${catalogResponse.status}.`);
+      if (!referencesResponse.ok) throw new Error(`References request failed with status ${referencesResponse.status}.`);
+      const [payload, referencesPayload] = await Promise.all([
+        catalogResponse.json(),
+        referencesResponse.json()
+      ]);
       if (!Array.isArray(payload)) throw new Error("Catalog data must be a JSON array.");
+      if (!Array.isArray(referencesPayload)) throw new Error("References data must be a JSON array.");
       state.items = payload.map(normalizeItem);
+      state.references = new Map(
+        referencesPayload
+          .map(normalizeReference)
+          .map((reference) => [reference.id, reference])
+      );
       renderThemes();
       renderFilterGroups();
       readUrlState();

@@ -24,8 +24,10 @@ and an accessible detail panel. All filtering and rendering happen in the browse
 |   |-- css/styles.css
 |   `-- js/app.js
 |-- data/catalog.json
+|-- data/references.json
 |-- scripts/validate_catalog.py
 |-- index.html
+|-- references.html
 |-- 404.html
 `-- README.md
 ```
@@ -70,7 +72,7 @@ Edit `data/catalog.json`. Every entry requires:
 - `verificationStatus`: `Verified`, `Partially verified`, or `Needs verification`.
 - `useCases`, `limitations`, and `tags`: non-empty string arrays.
 - `url`: primary official project, documentation, or publication URL.
-- `reference`: official citation or primary reference.
+- `referenceIds`: one or more IDs from `data/references.json`.
 - `lastChecked`: the actual source-review date in `YYYY-MM-DD` format.
 
 Spatial and temporal fields may be empty when they do not apply, especially for software and general methods.
@@ -84,6 +86,21 @@ Search and filter state is encoded in query parameters so a catalog view can be 
 ```
 
 Resource details use `resource=<id>` and work with browser forward/back navigation.
+
+## Citations and references
+
+Resource details may end with compact author–year citations. These links open the corresponding entry on
+`references.html`, where cited works are listed in AGU style.
+
+Citation metadata lives in `data/references.json`:
+
+- `id`: unique lowercase kebab-case identifier used as the page anchor.
+- `short`: compact author–year text, such as `Li et al., 2025`.
+- `citation`: complete AGU-style reference.
+- `url`: publisher page or persistent identifier.
+
+Each catalog resource declares a non-empty `referenceIds` array. Only works cited by at least one resource belong in
+the references file. The validation script checks reference IDs, URLs, missing links, and uncited entries.
 
 ## Editorial policy
 

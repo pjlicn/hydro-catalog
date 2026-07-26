@@ -16,7 +16,7 @@
     "limitations": ["Catchments are largely minimally impacted; users should review forcing-product differences."],
     "tags": ["Python", "Benchmarking", "Streamflow"],
     "url": "https://www.osti.gov/biblio/2371337",
-    "reference": "Addor et al. (2017), The CAMELS data set: catchment attributes and meteorology for large-sample studies, Hydrology and Earth System Sciences, 21, 5293–5313.",
+    "referenceIds": ["addor-2017", "li-2025-ensemble"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -36,7 +36,7 @@
     "limitations": ["Source archives differ in record length, quality control, and streamflow availability."],
     "tags": ["Large-sample", "Cloud", "Streamflow"],
     "url": "https://doi.org/10.1038/s41597-023-01975-w",
-    "reference": "Kratzert et al. (2023), Caravan - A global community dataset for large-sample hydrology, Scientific Data, 10, 61.",
+    "referenceIds": ["kratzert-2023"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -56,7 +56,7 @@
     "limitations": ["Station availability, record length, and redistribution conditions vary."],
     "tags": ["Runoff", "Stations", "Quality control"],
     "url": "https://grdc.bafg.de/",
-    "reference": "Global Runoff Data Centre, Federal Institute of Hydrology, Koblenz, Germany.",
+    "referenceIds": ["grdc-2026"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -76,7 +76,7 @@
     "limitations": ["Record completeness, approved status, and available parameters vary by station."],
     "tags": ["USGS", "API", "NWIS"],
     "url": "https://waterdata.usgs.gov/nwis",
-    "reference": "U.S. Geological Survey, National Water Information System: Web Interface.",
+    "referenceIds": ["usgs-water-data-2026"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -96,7 +96,7 @@
     "limitations": ["Interpolation uncertainty varies with station density, terrain, variable, and location."],
     "tags": ["NASA", "Meteorology", "NetCDF"],
     "url": "https://daymet.ornl.gov/",
-    "reference": "Thornton et al. (2022), Daymet: Daily Surface Weather Data on a 1-km Grid for North America, Version 4 R1.",
+    "referenceIds": ["thornton-2022"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -116,7 +116,7 @@
     "limitations": ["Users must account for product version, forcing source, and land-model differences."],
     "tags": ["NASA", "Assimilation", "Land surface"],
     "url": "https://ldas.gsfc.nasa.gov/nldas",
-    "reference": "Mitchell et al. (2004), The multi-institution North American Land Data Assimilation System project, Journal of Geophysical Research.",
+    "referenceIds": ["mitchell-2004"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -136,7 +136,7 @@
     "limitations": ["Retrieval quality is affected by vegetation, surface water, frozen ground, and radio-frequency interference."],
     "tags": ["NASA", "Satellite", "Microwave"],
     "url": "https://smap.jpl.nasa.gov/data/",
-    "reference": "Entekhabi et al. (2010), The Soil Moisture Active Passive (SMAP) Mission, Proceedings of the IEEE.",
+    "referenceIds": ["entekhabi-2010"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -156,7 +156,7 @@
     "limitations": ["Coarse effective resolution, leakage, filtering, and mission gaps require careful treatment."],
     "tags": ["NASA", "Satellite", "Groundwater"],
     "url": "https://grace.jpl.nasa.gov/data/get-data/",
-    "reference": "Tapley et al. (2004), GRACE measurements of mass variability in the Earth system, Science.",
+    "referenceIds": ["tapley-2004", "li-2023-grace", "li-2021-ica"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -176,7 +176,7 @@
     "limitations": ["Sampling geometry, water-body size, vegetation, and product maturity affect use."],
     "tags": ["NASA", "Satellite", "Rivers", "Lakes"],
     "url": "https://swot.jpl.nasa.gov/data/",
-    "reference": "Biancamaria, Lettenmaier, and Pavelsky (2016), The SWOT Mission and Its Capabilities for Land Hydrology, Surveys in Geophysics.",
+    "referenceIds": ["biancamaria-2016"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -196,7 +196,7 @@
     "limitations": ["Equations, parameters, and licensing differ across HBV implementations."],
     "tags": ["Conceptual model", "Calibration", "MATLAB", "Python"],
     "url": "https://www.smhi.se/publikationer-fran-smhi/sok-publikationer/1992-09-16-the-hbv-model---its-structure-and-applications.",
-    "reference": "Bergström (1976), Development and application of a conceptual runoff model for Scandinavian catchments.",
+    "referenceIds": ["bergstrom-1992", "li-2025-ensemble"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -216,7 +216,7 @@
     "limitations": ["Performance depends on training coverage; extrapolation, physical consistency, and interpretability need evaluation."],
     "tags": ["LSTM", "PyTorch", "TensorFlow", "Deep learning"],
     "url": "https://doi.org/10.5194/hess-22-6005-2018",
-    "reference": "Kratzert et al. (2018), Rainfall–runoff modelling using Long Short-Term Memory networks, Hydrology and Earth System Sciences.",
+    "referenceIds": ["kratzert-2018", "li-2025-ensemble"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -236,7 +236,7 @@
     "limitations": ["Users must design and validate application-specific process equations, inputs, and objectives."],
     "tags": ["PyTorch", "Python", "Autodiff"],
     "url": "https://github.com/mhpi/generic_deltamodel/",
-    "reference": "Shen et al. (2023), Differentiable modelling to unify machine learning and physical models for geosciences, Nature Reviews Earth & Environment, 4, 552–567.",
+    "referenceIds": ["shen-2023", "li-2025-ensemble"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -256,7 +256,7 @@
     "limitations": ["Definitions, data availability, and evaluation protocols differ across studies and regions."],
     "tags": ["PUB", "Benchmarking", "Generalization"],
     "url": "https://iahs.info/Initiatives/Working-Groups/Prediction-in-Ungauged-Basins/",
-    "reference": "Sivapalan et al. (2003), IAHS Decade on Predictions in Ungauged Basins (PUB), Hydrological Sciences Journal.",
+    "referenceIds": ["sivapalan-2003"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -276,7 +276,7 @@
     "limitations": ["Model setup, parameterization, dimensionality, and licensing vary by HYDRUS product."],
     "tags": ["Soil physics", "Numerical modeling", "Windows"],
     "url": "https://www.pc-progress.com/en/default.aspx",
-    "reference": "Šimůnek, van Genuchten, and Šejna, The HYDRUS Software Package for Simulating Two- and Three-Dimensional Movement of Water, Heat, and Multiple Solutes.",
+    "referenceIds": ["simunek-2016", "li-2020-soil-dynamics", "li-2023-retention"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -296,7 +296,7 @@
     "limitations": ["Results depend on conceptualization, discretization, boundary conditions, and calibration data."],
     "tags": ["Fortran", "Groundwater", "FloPy"],
     "url": "https://www.usgs.gov/mission-areas/water-resources/science/modflow-and-related-programs",
-    "reference": "Langevin et al. (2017), Documentation for the MODFLOW 6 Groundwater Flow Model, USGS Techniques and Methods 6-A55.",
+    "referenceIds": ["langevin-2017"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -316,7 +316,7 @@
     "limitations": ["Implementation access, forcing, parameter regionalization, and grid scale must be checked for each application."],
     "tags": ["Water balance", "Australia", "Regional modeling"],
     "url": "https://doi.org/10.1029/2010WR009505",
-    "reference": "van Dijk (2010), The Australian Water Resources Assessment System: Technical Report 3, Landscape Model (version 0.5) Technical Description.",
+    "referenceIds": ["van-dijk-2010"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -336,7 +336,7 @@
     "limitations": ["Network topology, runoff inputs, routing assumptions, and calibration strongly affect performance."],
     "tags": ["River network", "Muskingum", "Fortran"],
     "url": "http://rapid-hub.org/",
-    "reference": "David et al. (2011), RAPID: A parallel routing model for discharge estimation from large river networks, Water Resources Research.",
+    "referenceIds": ["david-2011"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -356,7 +356,7 @@
     "limitations": ["Results depend on the selected HBV formulation, forcings, training regions, and objective functions."],
     "tags": ["PyTorch", "Hybrid modeling", "δ-model"],
     "url": "https://egusphere.copernicus.org/preprints/2025/egusphere-2025-483/",
-    "reference": "Feng et al. (2025), Differentiable, learnable, regionalized process-based models with multiphysical outputs can approach state-of-the-art hydrologic prediction accuracy, EGUsphere preprint.",
+    "referenceIds": ["feng-2025", "li-2025-ensemble"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -376,7 +376,7 @@
     "limitations": ["Closure depends on input quality, storage depth, process simplification, and parameter calibration."],
     "tags": ["Python", "MATLAB", "R", "Mass balance"],
     "url": "https://www.fao.org/4/x0490e/x0490e00.htm",
-    "reference": "Allen et al. (1998), Crop evapotranspiration: Guidelines for computing crop water requirements, FAO Irrigation and Drainage Paper 56.",
+    "referenceIds": ["allen-1998", "li-2020-soil-dynamics", "li-2023-retention"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -396,7 +396,7 @@
     "limitations": ["Transfer functions and upscaling operators remain model-, variable-, and scale-dependent."],
     "tags": ["MPR", "Regionalization", "Subgrid variability"],
     "url": "https://doi.org/10.1029/2008WR007327",
-    "reference": "Samaniego, Kumar, and Attinger (2010), Multiscale parameter regionalization of a grid-based hydrologic model at the mesoscale, Water Resources Research.",
+    "referenceIds": ["samaniego-2010", "li-2024-scale"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -416,7 +416,7 @@
     "limitations": ["Requires choices for seasonal and trend smoothing and does not replace process attribution."],
     "tags": ["R", "Python", "LOESS"],
     "url": "https://stat.ethz.ch/R-manual/R-devel/library/stats/html/stl.html",
-    "reference": "Cleveland et al. (1990), STL: A Seasonal-Trend Decomposition Procedure Based on Loess, Journal of Official Statistics.",
+    "referenceIds": ["cleveland-1990"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -436,7 +436,7 @@
     "limitations": ["Components are linear, scale sensitive, and may not map directly to physical processes."],
     "tags": ["PCA", "Python", "R", "MATLAB"],
     "url": "https://scikit-learn.org/stable/modules/decomposition.html#pca",
-    "reference": "Jolliffe and Cadima (2016), Principal component analysis: a review and recent developments, Philosophical Transactions A.",
+    "referenceIds": ["jolliffe-2016"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -456,7 +456,7 @@
     "limitations": ["Results depend on independence assumptions, preprocessing, component count, and algorithm initialization."],
     "tags": ["ICA", "Python", "R", "MATLAB"],
     "url": "https://scikit-learn.org/stable/modules/decomposition.html#ica",
-    "reference": "Hyvärinen and Oja (2000), Independent component analysis: algorithms and applications, Neural Networks.",
+    "referenceIds": ["hyvarinen-2000", "li-2021-ica"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -476,7 +476,7 @@
     "limitations": ["Data coverage, architecture, regularization, reproducibility, and extrapolation require careful evaluation."],
     "tags": ["ANN", "Python", "MATLAB", "Deep learning"],
     "url": "https://www.deeplearningbook.org/",
-    "reference": "Goodfellow, Bengio, and Courville (2016), Deep Learning, MIT Press.",
+    "referenceIds": ["goodfellow-2016", "li-2020-soil-dynamics"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -496,7 +496,7 @@
     "limitations": ["Feature importance can be misleading; extrapolation and spatial dependence require explicit testing."],
     "tags": ["RF", "scikit-learn", "R", "Ensemble"],
     "url": "https://scikit-learn.org/stable/modules/ensemble.html#forest",
-    "reference": "Breiman (2001), Random Forests, Machine Learning, 45, 5–32.",
+    "referenceIds": ["breiman-2001"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -516,7 +516,7 @@
     "limitations": ["Boundary treatment, receptive field, scale transfer, and data requirements influence hydrological validity."],
     "tags": ["CNN", "PyTorch", "TensorFlow", "Deep learning"],
     "url": "https://www.deeplearningbook.org/contents/convnets.html",
-    "reference": "Goodfellow, Bengio, and Courville (2016), Deep Learning, Chapter 9, MIT Press.",
+    "referenceIds": ["goodfellow-2016"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -536,7 +536,7 @@
     "limitations": ["Requires correction and calibration for atmospheric pressure, humidity, biomass, and local hydrogen pools."],
     "tags": ["CRNS", "COSMOS", "Sensors"],
     "url": "https://doi.org/10.5194/hess-16-4079-2012",
-    "reference": "Zreda et al. (2012), COSMOS: the COsmic-ray Soil Moisture Observing System, Hydrology and Earth System Sciences.",
+    "referenceIds": ["zreda-2012"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -556,7 +556,7 @@
     "limitations": ["Gradient stability, differentiable approximations, computational cost, and equifinality need explicit analysis."],
     "tags": ["Autodiff", "PyTorch", "TensorFlow", "Physics-informed"],
     "url": "https://mhpi.github.io/",
-    "reference": "Shen et al. (2023), Differentiable modelling to unify machine learning and physical models for geosciences, Nature Reviews Earth & Environment.",
+    "referenceIds": ["shen-2023", "li-2025-ensemble"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -576,7 +576,7 @@
     "limitations": ["Validity is limited by training design and the sampled parameter and forcing domain."],
     "tags": ["Emulator", "Gaussian process", "ANN", "Optimization"],
     "url": "https://doi.org/10.1029/2011WR011527",
-    "reference": "Razavi, Tolson, and Burn (2012), Review of surrogate modeling in water resources, Water Resources Research.",
+    "referenceIds": ["razavi-2012"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -596,7 +596,7 @@
     "limitations": ["Quotas, licensing, dataset-specific caveats, and server-side programming patterns must be considered."],
     "tags": ["JavaScript", "Python", "Cloud", "GEE"],
     "url": "https://developers.google.com/earth-engine",
-    "reference": "Gorelick et al. (2017), Google Earth Engine: Planetary-scale geospatial analysis for everyone, Remote Sensing of Environment.",
+    "referenceIds": ["gorelick-2017"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -616,7 +616,7 @@
     "limitations": ["Requires an appropriate license; tool availability varies by extension and license level."],
     "tags": ["ArcGIS", "Python", "arcpy", "Desktop GIS"],
     "url": "https://pro.arcgis.com/en/pro-app/latest/get-started/get-started.htm",
-    "reference": "Esri, ArcGIS Pro documentation.",
+    "referenceIds": ["esri-2026"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -636,7 +636,7 @@
     "limitations": ["Plugin quality and workflow reproducibility vary; large analyses may require external processing tools."],
     "tags": ["QGIS", "Python", "Open source", "Desktop GIS"],
     "url": "https://qgis.org/",
-    "reference": "QGIS.org, QGIS Geographic Information System, QGIS Association.",
+    "referenceIds": ["qgis-2026"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -656,7 +656,7 @@
     "limitations": ["Driver capabilities and build dependencies vary by format and installation."],
     "tags": ["GDAL", "Shell", "Python", "Open source"],
     "url": "https://gdal.org/",
-    "reference": "GDAL/OGR contributors, GDAL/OGR Geospatial Data Abstraction software Library, Open Source Geospatial Foundation.",
+    "referenceIds": ["gdal-2026"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -676,7 +676,7 @@
     "limitations": ["Reproducibility, numerical precision, device behavior, and rapidly evolving APIs require management."],
     "tags": ["Python", "Autodiff", "GPU", "Deep learning"],
     "url": "https://pytorch.org/projects/pytorch/",
-    "reference": "Paszke et al. (2019), PyTorch: An Imperative Style, High-Performance Deep Learning Library, NeurIPS.",
+    "referenceIds": ["paszke-2019"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -696,7 +696,7 @@
     "limitations": ["Version compatibility, hardware configuration, and deployment targets add workflow complexity."],
     "tags": ["Python", "Autodiff", "GPU", "Keras"],
     "url": "https://www.tensorflow.org/guide/basics",
-    "reference": "Abadi et al. (2016), TensorFlow: A System for Large-Scale Machine Learning, OSDI.",
+    "referenceIds": ["abadi-2016"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -716,7 +716,7 @@
     "limitations": ["Most estimators do not directly model spatial or temporal dependence; users must design validation accordingly."],
     "tags": ["Python", "Machine learning", "Open source"],
     "url": "https://scikit-learn.org/stable/getting_started.html",
-    "reference": "Pedregosa et al. (2011), Scikit-learn: Machine Learning in Python, Journal of Machine Learning Research.",
+    "referenceIds": ["pedregosa-2011"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -736,7 +736,7 @@
     "limitations": ["Network density, sensor type, depth, record length, and temporal sampling are heterogeneous."],
     "tags": ["ISMN", "Stations", "Soil moisture"],
     "url": "https://ismn.earth/",
-    "reference": "Dorigo et al. (2011), The International Soil Moisture Network: a data hosting facility for global in situ soil moisture measurements, HESS.",
+    "referenceIds": ["dorigo-2011"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -756,7 +756,7 @@
     "limitations": ["Model structure, forcing, assimilation, version, and variable definition affect interpretation."],
     "tags": ["NASA", "Assimilation", "Global"],
     "url": "https://ldas.gsfc.nasa.gov/gldas",
-    "reference": "Rodell et al. (2004), The Global Land Data Assimilation System, Bulletin of the American Meteorological Society.",
+    "referenceIds": ["rodell-2004"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -776,7 +776,7 @@
     "limitations": ["Gauge density varies; real-time values may change and some source dates are missing."],
     "tags": ["NOAA", "CPC", "Precipitation", "NetCDF"],
     "url": "https://psl.noaa.gov/data/gridded/data.cpc.globalprecip.html",
-    "reference": "Chen et al. (2008), Assessing objective techniques for gauge-based analyses of global daily precipitation, Journal of Geophysical Research.",
+    "referenceIds": ["chen-2008"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -796,7 +796,7 @@
     "limitations": ["Clouds, retrieval algorithms, quality flags, composite periods, and collection versions must be handled per product."],
     "tags": ["NASA", "Satellite", "Terra", "Aqua"],
     "url": "https://modis.gsfc.nasa.gov/data/dataprod/",
-    "reference": "NASA MODIS, Data Products.",
+    "referenceIds": ["nasa-modis-2026"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -816,7 +816,7 @@
     "limitations": ["Coverage, quality flags, station continuity, and access interfaces vary among datasets."],
     "tags": ["NOAA", "NCEI", "Stations", "API"],
     "url": "https://www.ncei.noaa.gov/cdo-web/",
-    "reference": "NOAA National Centers for Environmental Information, Climate Data Online.",
+    "referenceIds": ["noaa-ncei-2026"],
     "lastChecked": "2026-07-26"
   },
   {
@@ -836,7 +836,7 @@
     "limitations": ["Predictions carry spatially varying uncertainty and should not replace local soil observations."],
     "tags": ["Soils", "ISRIC", "Global", "Raster"],
     "url": "https://soilgrids.org/",
-    "reference": "Poggio et al. (2021), SoilGrids 2.0: producing soil information for the globe with quantified spatial uncertainty, SOIL.",
+    "referenceIds": ["poggio-2021", "li-2024-scale", "li-2023-retention"],
     "lastChecked": "2026-07-26"
   }
 ]

@@ -13,6 +13,7 @@ from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG_PATH = ROOT / "data" / "catalog.json"
+REFERENCES_PATH = ROOT / "data" / "references.json"
 
 ALLOWED_TYPES = {
     "Dataset",
@@ -40,7 +41,7 @@ REQUIRED_TEXT_FIELDS = {
     "access",
     "verificationStatus",
 }
-REQUIRED_LIST_FIELDS = {"themes", "categories", "useCases", "limitations", "tags"}
+REQUIRED_LIST_FIELDS = {"themes", "categories", "useCases", "limitations", "tags", "referenceIds"}
 ID_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 
 
@@ -60,6 +61,7 @@ def validate() -> list[str]:
         return ["The catalog root must be a JSON array."]
 
     seen_ids: set[str] = set()
+    used_reference_ids: set[str] = set()
     for index, item in enumerate(payload):
         label = f"item {index + 1}"
         if not isinstance(item, dict):
@@ -110,6 +112,53 @@ def validate() -> list[str]:
             except (TypeError, ValueError):
                 errors.append(f"{label}: lastChecked must use YYYY-MM-DD.")
 
+        reference_ids = item.get("referenceIds", [])
+        if isinstance(reference_ids, list):
+            used_reference_ids.update(
+                reference_id for reference_id in reference_ids if isinstance(reference_id, str)
+            )
+
+    try:
+        references = json.loads(REFERENCES_PATH.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        return errors + [f"Could not read valid JSON from {REFERENCES_PATH}: {exc}"]
+
+    if not isinstance(references, list):
+        return errors + ["The references root must be a JSON array."]
+
+    seen_reference_ids: set[str] = set()
+    for index, reference in enumerate(references):
+        label = f"reference {index + 1}"
+        if not isinstance(reference, dict):
+            errors.append(f"{label}: must be an object.")
+            continue
+
+        reference_id = reference.get("id")
+        if isinstance(reference_id, str) and reference_id:
+            label = reference_id
+            if reference_id in seen_reference_ids:
+                errors.append(f"{label}: duplicate reference id.")
+            seen_reference_ids.add(reference_id)
+            if not ID_PATTERN.fullmatch(reference_id):
+                errors.append(f"{label}: reference id must use lowercase kebab-case.")
+
+        for field in {"id", "short", "citation", "url"}:
+            value = reference.get(field)
+            if not isinstance(value, str) or not value.strip():
+                errors.append(f"{label}: {field} must be a non-empty string.")
+
+        url = reference.get("url", "")
+        if url and (not isinstance(url, str) or not is_web_url(url)):
+            errors.append(f"{label}: url must be an absolute HTTP(S) URL.")
+
+    unknown_reference_ids = used_reference_ids - seen_reference_ids
+    if unknown_reference_ids:
+        errors.append(f"Catalog contains unknown referenceIds {sorted(unknown_reference_ids)!r}.")
+
+    uncited_reference_ids = seen_reference_ids - used_reference_ids
+    if uncited_reference_ids:
+        errors.append(f"References contains uncited works {sorted(uncited_reference_ids)!r}.")
+
     return errors
 
 
@@ -122,7 +171,8 @@ def main() -> int:
         return 1
 
     payload = json.loads(CATALOG_PATH.read_text(encoding="utf-8"))
-    print(f"Catalog validation passed: {len(payload)} resources.")
+    references = json.loads(REFERENCES_PATH.read_text(encoding="utf-8"))
+    print(f"Catalog validation passed: {len(payload)} resources and {len(references)} cited works.")
     return 0
 
 

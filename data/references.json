@@ -1,0 +1,278 @@
+[
+  {
+    "id": "addor-2017",
+    "short": "Addor et al., 2017",
+    "citation": "Addor, N., A. J. Newman, N. Mizukami, and M. P. Clark (2017), The CAMELS data set: Catchment attributes and meteorology for large-sample studies, Hydrol. Earth Syst. Sci., 21, 5293–5313, https://doi.org/10.5194/hess-21-5293-2017.",
+    "url": "https://doi.org/10.5194/hess-21-5293-2017"
+  },
+  {
+    "id": "kratzert-2023",
+    "short": "Kratzert et al., 2023",
+    "citation": "Kratzert, F., et al. (2023), Caravan—A global community dataset for large-sample hydrology, Sci. Data, 10, 61, https://doi.org/10.1038/s41597-023-01975-w.",
+    "url": "https://doi.org/10.1038/s41597-023-01975-w"
+  },
+  {
+    "id": "grdc-2026",
+    "short": "GRDC, 2026",
+    "citation": "Global Runoff Data Centre (GRDC) (2026), GRDC river discharge data, Federal Institute of Hydrology, Koblenz, Germany, accessed 26 July 2026, https://grdc.bafg.de/.",
+    "url": "https://grdc.bafg.de/"
+  },
+  {
+    "id": "usgs-water-data-2026",
+    "short": "USGS, 2026",
+    "citation": "U.S. Geological Survey (USGS) (2026), Water Data for the Nation, accessed 26 July 2026, https://waterdata.usgs.gov/nwis.",
+    "url": "https://waterdata.usgs.gov/nwis"
+  },
+  {
+    "id": "thornton-2022",
+    "short": "Thornton et al., 2022",
+    "citation": "Thornton, M. M., R. Shrestha, Y. Wei, P. E. Thornton, S.-C. Kao, and B. E. Wilson (2022), Daymet: Daily surface weather data on a 1-km grid for North America, version 4 R1, ORNL DAAC, https://doi.org/10.3334/ORNLDAAC/2129.",
+    "url": "https://doi.org/10.3334/ORNLDAAC/2129"
+  },
+  {
+    "id": "mitchell-2004",
+    "short": "Mitchell et al., 2004",
+    "citation": "Mitchell, K. E., et al. (2004), The multi-institution North American Land Data Assimilation System (NLDAS): Utilizing multiple GCIP products and partners in a continental distributed hydrological modeling system, J. Geophys. Res., 109, D07S90, https://doi.org/10.1029/2003JD003823.",
+    "url": "https://doi.org/10.1029/2003JD003823"
+  },
+  {
+    "id": "entekhabi-2010",
+    "short": "Entekhabi et al., 2010",
+    "citation": "Entekhabi, D., et al. (2010), The Soil Moisture Active Passive (SMAP) mission, Proc. IEEE, 98(5), 704–716, https://doi.org/10.1109/JPROC.2010.2043918.",
+    "url": "https://doi.org/10.1109/JPROC.2010.2043918"
+  },
+  {
+    "id": "tapley-2004",
+    "short": "Tapley et al., 2004",
+    "citation": "Tapley, B. D., S. Bettadpur, J. C. Ries, P. F. Thompson, and M. M. Watkins (2004), GRACE measurements of mass variability in the Earth system, Science, 305(5683), 503–505, https://doi.org/10.1126/science.1099192.",
+    "url": "https://doi.org/10.1126/science.1099192"
+  },
+  {
+    "id": "biancamaria-2016",
+    "short": "Biancamaria et al., 2016",
+    "citation": "Biancamaria, S., D. P. Lettenmaier, and T. M. Pavelsky (2016), The SWOT mission and its capabilities for land hydrology, Surv. Geophys., 37, 307–337, https://doi.org/10.1007/s10712-015-9346-y.",
+    "url": "https://doi.org/10.1007/s10712-015-9346-y"
+  },
+  {
+    "id": "bergstrom-1992",
+    "short": "Bergström, 1992",
+    "citation": "Bergström, S. (1992), The HBV model—Its structure and applications, SMHI Reports Hydrology, No. 4, Swedish Meteorological and Hydrological Institute, Norrköping, Sweden.",
+    "url": "https://www.smhi.se/publikationer-fran-smhi/sok-publikationer/1992-09-16-the-hbv-model---its-structure-and-applications."
+  },
+  {
+    "id": "kratzert-2018",
+    "short": "Kratzert et al., 2018",
+    "citation": "Kratzert, F., D. Klotz, C. Brenner, K. Schulz, and M. Herrnegger (2018), Rainfall–runoff modelling using long short-term memory (LSTM) networks, Hydrol. Earth Syst. Sci., 22, 6005–6022, https://doi.org/10.5194/hess-22-6005-2018.",
+    "url": "https://doi.org/10.5194/hess-22-6005-2018"
+  },
+  {
+    "id": "shen-2023",
+    "short": "Shen et al., 2023",
+    "citation": "Shen, C., A. P. Appling, P. Gentine, et al. (2023), Differentiable modelling to unify machine learning and physical models for geosciences, Nat. Rev. Earth Environ., 4, 552–567, https://doi.org/10.1038/s43017-023-00450-9.",
+    "url": "https://doi.org/10.1038/s43017-023-00450-9"
+  },
+  {
+    "id": "sivapalan-2003",
+    "short": "Sivapalan et al., 2003",
+    "citation": "Sivapalan, M., et al. (2003), IAHS decade on Predictions in Ungauged Basins (PUB), 2003–2012: Shaping an exciting future for the hydrological sciences, Hydrol. Sci. J., 48(6), 857–880, https://doi.org/10.1623/hysj.48.6.857.51421.",
+    "url": "https://doi.org/10.1623/hysj.48.6.857.51421"
+  },
+  {
+    "id": "simunek-2016",
+    "short": "Šimůnek et al., 2016",
+    "citation": "Šimůnek, J., M. T. van Genuchten, and M. Šejna (2016), Recent developments and applications of the HYDRUS computer software packages, Vadose Zone J., 15(7), https://doi.org/10.2136/vzj2016.04.0033.",
+    "url": "https://doi.org/10.2136/vzj2016.04.0033"
+  },
+  {
+    "id": "langevin-2017",
+    "short": "Langevin et al., 2017",
+    "citation": "Langevin, C. D., J. D. Hughes, E. R. Banta, R. G. Niswonger, S. Panday, and A. M. Provost (2017), Documentation for the MODFLOW 6 Groundwater Flow Model, U.S. Geol. Surv. Tech. Methods, book 6, chap. A55, https://doi.org/10.3133/tm6A55.",
+    "url": "https://doi.org/10.3133/tm6A55"
+  },
+  {
+    "id": "van-dijk-2010",
+    "short": "van Dijk, 2010",
+    "citation": "van Dijk, A. I. J. M. (2010), The Australian Water Resources Assessment System: Technical report 3, Landscape Model (version 0.5) technical description, CSIRO Water for a Healthy Country National Research Flagship, Canberra, Australia.",
+    "url": "https://doi.org/10.1029/2010WR009505"
+  },
+  {
+    "id": "david-2011",
+    "short": "David et al., 2011",
+    "citation": "David, C. H., D. R. Maidment, G.-Y. Niu, Z.-L. Yang, F. Habets, and V. Eijkhout (2011), RAPID: A parallel routing model for discharge estimation from large river networks, Water Resour. Res., 47, W10501, https://doi.org/10.1029/2011WR010829.",
+    "url": "https://doi.org/10.1029/2011WR010829"
+  },
+  {
+    "id": "feng-2025",
+    "short": "Feng et al., 2025",
+    "citation": "Feng, D., et al. (2025), Differentiable, learnable, regionalized process-based models with multiphysical outputs can approach state-of-the-art hydrologic prediction accuracy, EGUsphere [preprint], https://doi.org/10.5194/egusphere-2025-483.",
+    "url": "https://doi.org/10.5194/egusphere-2025-483"
+  },
+  {
+    "id": "allen-1998",
+    "short": "Allen et al., 1998",
+    "citation": "Allen, R. G., L. S. Pereira, D. Raes, and M. Smith (1998), Crop evapotranspiration: Guidelines for computing crop water requirements, FAO Irrigation and Drainage Paper 56, Food and Agriculture Organization, Rome, Italy.",
+    "url": "https://www.fao.org/4/x0490e/x0490e00.htm"
+  },
+  {
+    "id": "samaniego-2010",
+    "short": "Samaniego et al., 2010",
+    "citation": "Samaniego, L., R. Kumar, and S. Attinger (2010), Multiscale parameter regionalization of a grid-based hydrologic model at the mesoscale, Water Resour. Res., 46, W05523, https://doi.org/10.1029/2008WR007327.",
+    "url": "https://doi.org/10.1029/2008WR007327"
+  },
+  {
+    "id": "cleveland-1990",
+    "short": "Cleveland et al., 1990",
+    "citation": "Cleveland, R. B., W. S. Cleveland, J. E. McRae, and I. Terpenning (1990), STL: A seasonal-trend decomposition procedure based on Loess, J. Off. Stat., 6(1), 3–73.",
+    "url": "https://www.scb.se/contentassets/ca21efb41fee47d293bbee5bf7be7fb3/stl-a-seasonal-trend-decomposition-procedure-based-on-loess.pdf"
+  },
+  {
+    "id": "jolliffe-2016",
+    "short": "Jolliffe and Cadima, 2016",
+    "citation": "Jolliffe, I. T., and J. Cadima (2016), Principal component analysis: A review and recent developments, Philos. Trans. R. Soc. A, 374, 20150202, https://doi.org/10.1098/rsta.2015.0202.",
+    "url": "https://doi.org/10.1098/rsta.2015.0202"
+  },
+  {
+    "id": "hyvarinen-2000",
+    "short": "Hyvärinen and Oja, 2000",
+    "citation": "Hyvärinen, A., and E. Oja (2000), Independent component analysis: Algorithms and applications, Neural Networks, 13(4–5), 411–430, https://doi.org/10.1016/S0893-6080(00)00026-5.",
+    "url": "https://doi.org/10.1016/S0893-6080(00)00026-5"
+  },
+  {
+    "id": "goodfellow-2016",
+    "short": "Goodfellow et al., 2016",
+    "citation": "Goodfellow, I., Y. Bengio, and A. Courville (2016), Deep Learning, MIT Press, Cambridge, Mass.",
+    "url": "https://www.deeplearningbook.org/"
+  },
+  {
+    "id": "breiman-2001",
+    "short": "Breiman, 2001",
+    "citation": "Breiman, L. (2001), Random forests, Mach. Learn., 45, 5–32, https://doi.org/10.1023/A:1010933404324.",
+    "url": "https://doi.org/10.1023/A:1010933404324"
+  },
+  {
+    "id": "zreda-2012",
+    "short": "Zreda et al., 2012",
+    "citation": "Zreda, M., et al. (2012), COSMOS: The COsmic-ray Soil Moisture Observing System, Hydrol. Earth Syst. Sci., 16, 4079–4099, https://doi.org/10.5194/hess-16-4079-2012.",
+    "url": "https://doi.org/10.5194/hess-16-4079-2012"
+  },
+  {
+    "id": "razavi-2012",
+    "short": "Razavi et al., 2012",
+    "citation": "Razavi, S., B. A. Tolson, and D. H. Burn (2012), Review of surrogate modeling in water resources, Water Resour. Res., 48, W07401, https://doi.org/10.1029/2011WR011527.",
+    "url": "https://doi.org/10.1029/2011WR011527"
+  },
+  {
+    "id": "gorelick-2017",
+    "short": "Gorelick et al., 2017",
+    "citation": "Gorelick, N., M. Hancher, M. Dixon, S. Ilyushchenko, D. Thau, and R. Moore (2017), Google Earth Engine: Planetary-scale geospatial analysis for everyone, Remote Sens. Environ., 202, 18–27, https://doi.org/10.1016/j.rse.2017.06.031.",
+    "url": "https://doi.org/10.1016/j.rse.2017.06.031"
+  },
+  {
+    "id": "esri-2026",
+    "short": "Esri, 2026",
+    "citation": "Esri (2026), ArcGIS Pro documentation, accessed 26 July 2026, https://pro.arcgis.com/.",
+    "url": "https://pro.arcgis.com/"
+  },
+  {
+    "id": "qgis-2026",
+    "short": "QGIS Project, 2026",
+    "citation": "QGIS Project (2026), QGIS Geographic Information System, QGIS Association, accessed 26 July 2026, https://qgis.org/.",
+    "url": "https://qgis.org/"
+  },
+  {
+    "id": "gdal-2026",
+    "short": "GDAL/OGR contributors, 2026",
+    "citation": "GDAL/OGR contributors (2026), GDAL/OGR Geospatial Data Abstraction software library, Open Source Geospatial Foundation, accessed 26 July 2026, https://gdal.org/.",
+    "url": "https://gdal.org/"
+  },
+  {
+    "id": "paszke-2019",
+    "short": "Paszke et al., 2019",
+    "citation": "Paszke, A., et al. (2019), PyTorch: An imperative style, high-performance deep learning library, in Advances in Neural Information Processing Systems 32, pp. 8024–8035.",
+    "url": "https://papers.neurips.cc/paper/9015-pytorch-an-imperative-style-high-performance-deep-learning-library"
+  },
+  {
+    "id": "abadi-2016",
+    "short": "Abadi et al., 2016",
+    "citation": "Abadi, M., et al. (2016), TensorFlow: A system for large-scale machine learning, in 12th USENIX Symposium on Operating Systems Design and Implementation, pp. 265–283.",
+    "url": "https://www.usenix.org/conference/osdi16/technical-sessions/presentation/abadi"
+  },
+  {
+    "id": "pedregosa-2011",
+    "short": "Pedregosa et al., 2011",
+    "citation": "Pedregosa, F., et al. (2011), Scikit-learn: Machine learning in Python, J. Mach. Learn. Res., 12, 2825–2830.",
+    "url": "https://jmlr.org/papers/v12/pedregosa11a.html"
+  },
+  {
+    "id": "dorigo-2011",
+    "short": "Dorigo et al., 2011",
+    "citation": "Dorigo, W. A., et al. (2011), The International Soil Moisture Network: A data hosting facility for global in situ soil moisture measurements, Hydrol. Earth Syst. Sci., 15, 1675–1698, https://doi.org/10.5194/hess-15-1675-2011.",
+    "url": "https://doi.org/10.5194/hess-15-1675-2011"
+  },
+  {
+    "id": "rodell-2004",
+    "short": "Rodell et al., 2004",
+    "citation": "Rodell, M., et al. (2004), The Global Land Data Assimilation System, Bull. Am. Meteorol. Soc., 85(3), 381–394, https://doi.org/10.1175/BAMS-85-3-381.",
+    "url": "https://doi.org/10.1175/BAMS-85-3-381"
+  },
+  {
+    "id": "chen-2008",
+    "short": "Chen et al., 2008",
+    "citation": "Chen, M., W. Shi, P. Xie, V. B. S. Silva, V. E. Kousky, R. W. Higgins, and J. E. Janowiak (2008), Assessing objective techniques for gauge-based analyses of global daily precipitation, J. Geophys. Res., 113, D04110, https://doi.org/10.1029/2007JD009132.",
+    "url": "https://doi.org/10.1029/2007JD009132"
+  },
+  {
+    "id": "nasa-modis-2026",
+    "short": "NASA, 2026",
+    "citation": "National Aeronautics and Space Administration (NASA) (2026), MODIS data products, accessed 26 July 2026, https://modis.gsfc.nasa.gov/data/dataprod/.",
+    "url": "https://modis.gsfc.nasa.gov/data/dataprod/"
+  },
+  {
+    "id": "noaa-ncei-2026",
+    "short": "NOAA NCEI, 2026",
+    "citation": "National Centers for Environmental Information (NCEI) (2026), Climate Data Online, National Oceanic and Atmospheric Administration, accessed 26 July 2026, https://www.ncei.noaa.gov/cdo-web/.",
+    "url": "https://www.ncei.noaa.gov/cdo-web/"
+  },
+  {
+    "id": "poggio-2021",
+    "short": "Poggio et al., 2021",
+    "citation": "Poggio, L., L. M. de Sousa, N. H. Batjes, G. B. M. Heuvelink, B. Kempen, E. Ribeiro, and D. Rossiter (2021), SoilGrids 2.0: Producing soil information for the globe with quantified spatial uncertainty, SOIL, 7, 217–240, https://doi.org/10.5194/soil-7-217-2021.",
+    "url": "https://doi.org/10.5194/soil-7-217-2021"
+  },
+  {
+    "id": "li-2025-ensemble",
+    "short": "Li et al., 2025",
+    "citation": "Li, P., Y. Song, M. Pan, K. Lawson, and C. Shen (2025), Ensembling differentiable process-based and data-driven models with diverse meteorological forcing datasets to advance streamflow simulation, Hydrol. Earth Syst. Sci., 29, 6829–6861, https://doi.org/10.5194/hess-29-6829-2025.",
+    "url": "https://doi.org/10.5194/hess-29-6829-2025"
+  },
+  {
+    "id": "li-2024-scale",
+    "short": "Li et al., 2024",
+    "citation": "Li, P., Y. Zha, Y. Zhang, et al. (2024), Deep learning integrating scale conversion and pedo-transfer function to avoid potential errors in cross-scale transfer, Water Resour. Res., 60, e2023WR035543, https://doi.org/10.1029/2023WR035543.",
+    "url": "https://doi.org/10.1029/2023WR035543"
+  },
+  {
+    "id": "li-2023-retention",
+    "short": "Li et al., 2023b",
+    "citation": "Li, P., Y. Zha, B. Zuo, and Y. Zhang (2023b), A family of soil water retention models based on sigmoid functions, Water Resour. Res., 59, e2022WR033160, https://doi.org/10.1029/2022WR033160.",
+    "url": "https://doi.org/10.1029/2022WR033160"
+  },
+  {
+    "id": "li-2020-soil-dynamics",
+    "short": "Li et al., 2020",
+    "citation": "Li, P., Y. Zha, L. Shi, C. H. M. Tso, Y. Zhang, and W. Zeng (2020), Comparison of the use of a physical-based model with data assimilation and machine learning methods for simulating soil water dynamics, J. Hydrol., 584, 124692, https://doi.org/10.1016/j.jhydrol.2020.124692.",
+    "url": "https://doi.org/10.1016/j.jhydrol.2020.124692"
+  },
+  {
+    "id": "li-2023-grace",
+    "short": "Li et al., 2023a",
+    "citation": "Li, P., Y. Zha, and C.-H. M. Tso (2023a), Reconstructing GRACE-derived terrestrial water storage anomalies with in situ groundwater level measurements and meteorological forcing data, J. Hydrol. Reg. Stud., 50, 101528, https://doi.org/10.1016/j.ejrh.2023.101528.",
+    "url": "https://doi.org/10.1016/j.ejrh.2023.101528"
+  },
+  {
+    "id": "li-2021-ica",
+    "short": "Li et al., 2021",
+    "citation": "Li, P., Y. Zha, L. Shi, and H. Zhong (2021), Identification of the terrestrial water storage change features in the North China Plain via independent component analysis, J. Hydrol. Reg. Stud., 38, 100955, https://doi.org/10.1016/j.ejrh.2021.100955.",
+    "url": "https://doi.org/10.1016/j.ejrh.2021.100955"
+  }
+]
