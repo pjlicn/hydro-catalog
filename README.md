@@ -14,7 +14,8 @@ Resources are organized around five research themes:
 - Hydrometeorological Data & Platforms
 
 The interface provides full-text search, multi-select filters, sorting, shareable URL state, responsive resource cards,
-and an accessible detail panel. All filtering and rendering happen in the browser.
+an accessible detail panel, and an interactive relationship network. All filtering and rendering happen in the
+browser.
 
 ## Project structure
 
@@ -22,13 +23,20 @@ and an accessible detail panel. All filtering and rendering happen in the browse
 .
 |-- assets/
 |   |-- css/styles.css
-|   `-- js/app.js
+|   `-- js/
+|       |-- app.js
+|       |-- network.js
+|       |-- references.js
+|       `-- theme.js
 |-- data/catalog.json
 |-- data/references.json
 |-- scripts/validate_catalog.py
 |-- index.html
+|-- network.html
 |-- references.html
 |-- 404.html
+|-- LICENSE
+|-- LICENSE-CONTENT.md
 `-- README.md
 ```
 
@@ -87,6 +95,23 @@ Search and filter state is encoded in query parameters so a catalog view can be 
 
 Resource details use `resource=<id>` and work with browser forward/back navigation.
 
+## Resource network
+
+`network.html` presents the catalog as a dependency-free SVG network. Resource-to-resource candidates must share at
+least one research theme and use weighted Jaccard similarity:
+
+```text
+0.75 * category Jaccard similarity + 0.25 * theme Jaccard similarity
+```
+
+Each resource retains its two highest-scoring candidate relationships; the selected pairs are merged into undirected
+edges and ties are resolved deterministically by resource ID. Tags do not contribute to the score. Network links use
+`network.html?resource=<id>` to center and highlight a resource, and browser back and forward restore the selected
+node.
+
+These edges describe metadata similarity only. They do not imply official integration, technical dependency,
+interoperability, endorsement, or causation.
+
 ## Citations and references
 
 Resource details include compact author–year citations after the description and complete AGU-style references at
@@ -108,6 +133,25 @@ the references file. The validation script checks reference IDs, URLs, missing l
 The catalog supports light and dark themes. A first visit follows the operating-system preference; using the header
 toggle stores an explicit choice in `localStorage` under `hydro-catalog-theme` and applies it across catalog pages.
 Theme colors are defined as custom properties in `assets/css/styles.css`.
+
+## License and permitted use
+
+The original software implementation in this repository—including the authored HTML, CSS, JavaScript, Python
+validation code, and original visual assets—is source-available under the
+[PolyForm Noncommercial License 1.0.0](./LICENSE).
+
+The original catalog compilation, editorial descriptions, documentation, and other non-software content that the
+licensor is authorized to license are available under
+[Creative Commons Attribution-NonCommercial 4.0 International](./LICENSE-CONTENT.md).
+
+- Personal study, teaching, experimentation, noncommercial research, and qualifying educational, charitable,
+  public-research, environmental-protection, public-health, and government use are permitted as specified by the
+  applicable license.
+- Commercial deployment, paid services, integration into a commercial product, or work performed for a commercial
+  client requires separate written permission from [Peijun Li](https://pjlicn.github.io/cv/).
+- This is a source-available project with noncommercial restrictions, not an OSI-approved open-source project.
+- Third-party publications, facts, names, trademarks, official documentation, external websites, and linked materials
+  are excluded. The licenses grant rights only to material Peijun Li owns or is authorized to license.
 
 ## Editorial policy
 

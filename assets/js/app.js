@@ -360,9 +360,6 @@
     state.filtered.forEach((item) => {
       const card = document.createElement("article");
       card.className = "resource-card";
-      card.tabIndex = 0;
-      card.setAttribute("role", "button");
-      card.setAttribute("aria-label", `View details for ${item.name}`);
       card.dataset.resourceId = item.id;
 
       const top = document.createElement("div");
@@ -383,18 +380,27 @@
 
       const footer = document.createElement("div");
       footer.className = "card-footer";
+      const cardActions = document.createElement("div");
+      cardActions.className = "card-actions";
+      const networkLink = document.createElement("a");
+      networkLink.className = "card-network-link";
+      networkLink.href = `./network.html?resource=${encodeURIComponent(item.id)}`;
+      networkLink.textContent = "Network";
+      networkLink.setAttribute("aria-label", `View ${item.name} in the resource network`);
+      const detailsButton = document.createElement("button");
+      detailsButton.type = "button";
+      detailsButton.className = "card-open";
+      detailsButton.textContent = "View details →";
+      detailsButton.addEventListener("click", () => openDetail(item.id, detailsButton));
+      cardActions.append(networkLink, detailsButton);
       footer.append(
         createBadge(item.verificationStatus, `status-badge ${statusClass(item.verificationStatus)}`),
-        createBadge("View details →", "card-open")
+        cardActions
       );
 
       card.append(top, description, tagRow, footer);
-      card.addEventListener("click", () => openDetail(item.id, card));
-      card.addEventListener("keydown", (event) => {
-        if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          openDetail(item.id, card);
-        }
+      card.addEventListener("click", (event) => {
+        if (!event.target.closest("a, button")) openDetail(item.id, detailsButton);
       });
       fragment.appendChild(card);
     });
@@ -558,6 +564,13 @@
     appendListSection(els.detailContent, "Use cases", item.useCases);
     appendListSection(els.detailContent, "Limitations", item.limitations);
 
+    const actions = document.createElement("div");
+    actions.className = "detail-actions";
+    const networkLink = document.createElement("a");
+    networkLink.className = "detail-network-link";
+    networkLink.href = `./network.html?resource=${encodeURIComponent(item.id)}`;
+    networkLink.textContent = "View in network →";
+    actions.appendChild(networkLink);
     if (item.url) {
       const link = document.createElement("a");
       link.className = "official-link";
@@ -565,8 +578,9 @@
       link.target = "_blank";
       link.rel = "noopener noreferrer";
       link.textContent = "Open official resource ↗";
-      els.detailContent.appendChild(link);
+      actions.appendChild(link);
     }
+    els.detailContent.appendChild(actions);
     appendReferencesSection(els.detailContent, relatedReferences);
   }
 
