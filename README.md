@@ -89,8 +89,9 @@ Resource details use `resource=<id>` and work with browser forward/back navigati
 
 ## Citations and references
 
-Resource details may end with compact author–year citations. These links open the corresponding entry on
-`references.html`, where cited works are listed in AGU style.
+Resource details include compact author–year citations after the description and complete AGU-style references at
+the end of the panel. Both use the same reference IDs. Citation links open the corresponding entry on
+`references.html`.
 
 Citation metadata lives in `data/references.json`:
 
@@ -101,6 +102,12 @@ Citation metadata lives in `data/references.json`:
 
 Each catalog resource declares a non-empty `referenceIds` array. Only works cited by at least one resource belong in
 the references file. The validation script checks reference IDs, URLs, missing links, and uncited entries.
+
+## Color theme
+
+The catalog supports light and dark themes. A first visit follows the operating-system preference; using the header
+toggle stores an explicit choice in `localStorage` under `hydro-catalog-theme` and applies it across catalog pages.
+Theme colors are defined as custom properties in `assets/css/styles.css`.
 
 ## Editorial policy
 

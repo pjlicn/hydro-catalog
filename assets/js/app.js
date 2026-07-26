@@ -143,7 +143,7 @@
     return item.referenceIds
       .map((id) => state.references.get(id))
       .filter(Boolean)
-      .sort((a, b) => a.short.localeCompare(b.short));
+      .sort((a, b) => a.citation.localeCompare(b.citation));
   }
 
   function slugForTheme(theme) {
@@ -463,6 +463,46 @@
     parent.appendChild(section);
   }
 
+  function appendReferencesSection(parent, references) {
+    if (!references.length) return;
+    const section = document.createElement("section");
+    section.className = "detail-section detail-references-section";
+    const heading = document.createElement("h3");
+    heading.textContent = "References";
+    const listElement = document.createElement("ol");
+    listElement.className = "detail-references-list";
+
+    references.forEach((reference) => {
+      const item = document.createElement("li");
+      const citation = document.createElement("p");
+      citation.textContent = reference.citation;
+      const actions = document.createElement("div");
+      actions.className = "detail-reference-actions";
+
+      if (reference.url) {
+        const sourceLink = document.createElement("a");
+        sourceLink.href = reference.url;
+        sourceLink.target = "_blank";
+        sourceLink.rel = "noopener noreferrer";
+        sourceLink.textContent = "Open source ↗";
+        sourceLink.setAttribute("aria-label", `Open source for ${reference.short}`);
+        actions.appendChild(sourceLink);
+      }
+
+      const listLink = document.createElement("a");
+      listLink.href = `./references.html#${reference.id}`;
+      listLink.textContent = "View in all references →";
+      listLink.setAttribute("aria-label", `View ${reference.short} in all references`);
+      actions.appendChild(listLink);
+
+      item.append(citation, actions);
+      listElement.appendChild(item);
+    });
+
+    section.append(heading, listElement);
+    parent.appendChild(section);
+  }
+
   function renderDetail(item) {
     els.detailContent.textContent = "";
     const hero = document.createElement("div");
@@ -527,6 +567,7 @@
       link.textContent = "Open official resource ↗";
       els.detailContent.appendChild(link);
     }
+    appendReferencesSection(els.detailContent, relatedReferences);
   }
 
   function openDetail(id, trigger, historyMode = "push") {
