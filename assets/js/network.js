@@ -35,8 +35,7 @@
     nodeElements: new Map(),
     edgeElements: [],
     drag: null,
-    pan: null,
-    suppressClick: false
+    pan: null
   };
 
   const els = {
@@ -309,13 +308,15 @@
     label.textContent = truncateLabel(node.item.name);
     group.appendChild(label);
 
-    group.addEventListener("click", () => {
-      if (!state.suppressClick) selectResource(node.id);
+    group.addEventListener("click", (event) => {
+      if (event.detail === 0 && state.selectedId !== node.id) {
+        selectResource(node.id, { reveal: true });
+      }
     });
     group.addEventListener("keydown", (event) => {
       if (event.key === "Enter" || event.key === " ") {
         event.preventDefault();
-        selectResource(node.id);
+        selectResource(node.id, { reveal: true });
       }
     });
     group.addEventListener("mouseenter", () => {
@@ -357,7 +358,7 @@
         button.type = "button";
         button.dataset.resourceId = item.id;
         button.textContent = `${item.name} — ${item.type}`;
-        button.addEventListener("click", () => selectResource(item.id));
+        button.addEventListener("click", () => selectResource(item.id, { reveal: true }));
         listItem.appendChild(button);
         fragment.appendChild(listItem);
       });
@@ -635,8 +636,16 @@
     applyTransform();
   }
 
+  function revealInspector() {
+    if (!window.matchMedia("(max-width: 760px)").matches) return;
+    const behavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+    window.requestAnimationFrame(() => {
+      els.inspector.scrollIntoView({ behavior, block: "start" });
+    });
+  }
+
   function selectResource(id, options = {}) {
-    const { historyMode = "push", center = true } = options;
+    const { historyMode = "push", center = true, reveal = false } = options;
     const item = state.itemMap.get(id);
     if (!item) {
       showAlert(`Resource “${id}” was not found. Showing the full network instead.`);
@@ -661,6 +670,7 @@
     updateHighlight();
     renderInspector();
     if (center) centerNode(id);
+    if (reveal) revealInspector();
   }
 
   function clearSelection(updateHistory = true) {
@@ -775,6 +785,7 @@
           id,
           startX: event.clientX,
           startY: event.clientY,
+          moved: false,
           offsetX: ((point.x - state.transform.x) / state.transform.k) - node.x,
           offsetY: ((point.y - state.transform.y) / state.transform.k) - node.y
         };
@@ -797,7 +808,7 @@
         node.x = Math.min(WIDTH - 35, Math.max(35, node.x));
         node.y = Math.min(HEIGHT - 35, Math.max(35, node.y));
         if (Math.hypot(event.clientX - state.drag.startX, event.clientY - state.drag.startY) > 4) {
-          state.suppressClick = true;
+          state.drag.moved = true;
         }
         updatePositions();
       } else if (state.pan) {
@@ -808,15 +819,18 @@
       }
     });
 
-    function endPointer(event) {
+    function endPointer(event, cancelled = false) {
+      const selectedId = state.drag && !state.drag.moved && !cancelled
+        ? state.drag.id
+        : "";
       if (els.svg.hasPointerCapture(event.pointerId)) els.svg.releasePointerCapture(event.pointerId);
       state.drag = null;
       state.pan = null;
-      window.setTimeout(() => { state.suppressClick = false; }, 0);
+      if (selectedId) selectResource(selectedId, { reveal: true });
     }
 
     els.svg.addEventListener("pointerup", endPointer);
-    els.svg.addEventListener("pointercancel", endPointer);
+    els.svg.addEventListener("pointercancel", (event) => endPointer(event, true));
   }
 
   function populateControls() {

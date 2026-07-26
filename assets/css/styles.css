@@ -462,7 +462,7 @@ nav .repo-link { padding: 9px 15px; border: 1px solid rgba(255,255,255,.28); bor
 .network-resource-node:hover text,
 .network-resource-node:focus text,
 .network-resource-node.active text,
-.network-resource-node.selected text { opacity: 1; }
+.network-resource-node.selected text { opacity: 1; pointer-events: auto; }
 .network-resource-node:hover .network-node-core,
 .network-resource-node:focus .network-node-core,
 .network-resource-node.active .network-node-core { r: 13; }
@@ -501,6 +501,7 @@ nav .repo-link { padding: 9px 15px; border: 1px solid rgba(255,255,255,.28); bor
 }
 .network-inspector {
   position: sticky; top: 97px; max-height: calc(100vh - 115px); padding: 25px; overflow-y: auto;
+  scroll-margin-top: 84px;
   color: var(--ink); background: var(--surface); border: 1px solid var(--line);
   border-radius: var(--radius); box-shadow: var(--shadow-soft);
 }
