@@ -77,8 +77,15 @@
       tags: list(raw.tags),
       description: text(raw.description, "Description unavailable."),
       provider: text(raw.provider),
+      spatialCoverage: text(raw.spatialCoverage),
+      temporalResolution: text(raw.temporalResolution),
+      spatialResolution: text(raw.spatialResolution),
+      access: text(raw.access, "Needs verification"),
       verificationStatus: text(raw.verificationStatus, "Needs verification"),
-      url: text(raw.url)
+      useCases: list(raw.useCases),
+      limitations: list(raw.limitations),
+      url: text(raw.url),
+      lastChecked: text(raw.lastChecked)
     };
   }
 
@@ -90,7 +97,7 @@
 
   function sharedValues(left, right) {
     const rightValues = new Set(right);
-    return left.filter((value) => rightValues.has(value));
+    return Array.from(new Set(left.filter((value) => rightValues.has(value))));
   }
 
   function edgeKey(left, right) {
@@ -471,6 +478,33 @@
     parent.appendChild(count);
   }
 
+  function appendInspectorDefinition(listElement, label, value) {
+    if (!value) return;
+    const wrapper = document.createElement("div");
+    const term = document.createElement("dt");
+    term.textContent = label;
+    const definition = document.createElement("dd");
+    definition.textContent = value;
+    wrapper.append(term, definition);
+    listElement.appendChild(wrapper);
+  }
+
+  function appendInspectorList(parent, headingText, values) {
+    if (!values.length) return;
+    const section = document.createElement("section");
+    section.className = "network-inspector-section";
+    const heading = document.createElement("h3");
+    heading.textContent = headingText;
+    const listElement = document.createElement("ul");
+    values.forEach((value) => {
+      const listItem = document.createElement("li");
+      listItem.textContent = value;
+      listElement.appendChild(listItem);
+    });
+    section.append(heading, listElement);
+    parent.appendChild(section);
+  }
+
   function renderInspector() {
     els.inspector.textContent = "";
     const eyebrow = document.createElement("p");
@@ -491,6 +525,8 @@
 
     const heading = document.createElement("h2");
     heading.textContent = item.name;
+    const profile = document.createElement("article");
+    profile.className = "network-resource-profile";
     const badges = document.createElement("div");
     badges.className = "network-inspector-badges";
     badges.append(
@@ -502,6 +538,19 @@
     const themeList = document.createElement("div");
     themeList.className = "tag-row";
     item.themes.forEach((theme) => themeList.appendChild(createBadge(theme)));
+
+    const meta = document.createElement("dl");
+    meta.className = "network-inspector-meta";
+    appendInspectorDefinition(meta, "Provider", item.provider);
+    appendInspectorDefinition(meta, "Access", item.access);
+    appendInspectorDefinition(meta, "Spatial coverage", item.spatialCoverage);
+    appendInspectorDefinition(meta, "Spatial resolution", item.spatialResolution);
+    appendInspectorDefinition(meta, "Temporal resolution", item.temporalResolution);
+    appendInspectorDefinition(meta, "Last checked", item.lastChecked);
+
+    const taxonomy = document.createElement("div");
+    taxonomy.className = "network-inspector-taxonomy";
+    [...item.categories, ...item.tags].forEach((value) => taxonomy.appendChild(createBadge(value)));
 
     const actions = document.createElement("div");
     actions.className = "network-inspector-actions";
@@ -519,7 +568,19 @@
       actions.appendChild(officialLink);
     }
 
-    els.inspector.append(heading, badges, description, themeList, actions);
+    profile.append(heading, badges, description, themeList, meta);
+    appendInspectorList(profile, "Use cases", item.useCases);
+    appendInspectorList(profile, "Limitations", item.limitations);
+    if (taxonomy.childElementCount) {
+      const taxonomySection = document.createElement("section");
+      taxonomySection.className = "network-inspector-section";
+      const taxonomyHeading = document.createElement("h3");
+      taxonomyHeading.textContent = "Categories & tags";
+      taxonomySection.append(taxonomyHeading, taxonomy);
+      profile.appendChild(taxonomySection);
+    }
+    profile.appendChild(actions);
+    els.inspector.appendChild(profile);
 
     const neighborHeading = document.createElement("h3");
     neighborHeading.textContent = "Related resources";
@@ -645,6 +706,49 @@
     applyTransform();
   }
 
+  function fitVisibleNodes() {
+    const nodes = Array.from(state.visibleIds)
+      .map((id) => state.resourceNodes.get(id))
+      .filter(Boolean);
+    if (!nodes.length) {
+      resetView();
+      return;
+    }
+    const minX = Math.min(...nodes.map((node) => node.x));
+    const maxX = Math.max(...nodes.map((node) => node.x));
+    const minY = Math.min(...nodes.map((node) => node.y));
+    const maxY = Math.max(...nodes.map((node) => node.y));
+    const padding = 95;
+    const contentWidth = Math.max(maxX - minX, 120);
+    const contentHeight = Math.max(maxY - minY, 120);
+    const zoom = Math.min(
+      2.2,
+      Math.max(
+        0.55,
+        Math.min((WIDTH - (padding * 2)) / contentWidth, (HEIGHT - (padding * 2)) / contentHeight)
+      )
+    );
+    state.transform = {
+      x: (WIDTH / 2) - (((minX + maxX) / 2) * zoom),
+      y: (HEIGHT / 2) - (((minY + maxY) / 2) * zoom),
+      k: zoom
+    };
+    applyTransform();
+  }
+
+  function resetNetwork() {
+    state.query = "";
+    state.theme = "";
+    state.type = "";
+    state.selectedId = "";
+    state.hoveredId = "";
+    syncControls();
+    writeResourceUrl("");
+    renderGraph();
+    resetView();
+    showAlert("");
+  }
+
   function eventPoint(event) {
     const bounds = els.svg.getBoundingClientRect();
     return {
@@ -662,7 +766,6 @@
 
     els.svg.addEventListener("pointerdown", (event) => {
       const resourceElement = event.target.closest(".network-resource-node");
-      if (!resourceElement && event.target.closest(".network-theme-node")) return;
       const point = eventPoint(event);
       els.svg.setPointerCapture(event.pointerId);
       if (resourceElement) {
@@ -742,11 +845,9 @@
       item.append(dot, document.createTextNode(theme));
       fragment.appendChild(item);
     });
-    const themeEdge = document.createElement("span");
-    themeEdge.innerHTML = '<i class="network-legend-line theme-line"></i>Theme membership';
     const similarityEdge = document.createElement("span");
-    similarityEdge.innerHTML = '<i class="network-legend-line similarity-line"></i>Shared categories';
-    fragment.append(themeEdge, similarityEdge);
+    similarityEdge.innerHTML = '<i class="network-legend-line similarity-line"></i>Weighted metadata similarity';
+    fragment.append(similarityEdge);
     els.legend.appendChild(fragment);
   }
 
@@ -765,7 +866,8 @@
     });
     els.zoomIn.addEventListener("click", () => zoomAt(1.2));
     els.zoomOut.addEventListener("click", () => zoomAt(0.8));
-    els.reset.addEventListener("click", resetView);
+    els.fit.addEventListener("click", fitVisibleNodes);
+    els.reset.addEventListener("click", resetNetwork);
     window.addEventListener("popstate", () => {
       const id = new URL(window.location.href).searchParams.get("resource") || "";
       if (id) selectResource(id, { historyMode: "", center: true });

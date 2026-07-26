@@ -385,7 +385,7 @@
       const networkLink = document.createElement("a");
       networkLink.className = "card-network-link";
       networkLink.href = `./network.html?resource=${encodeURIComponent(item.id)}`;
-      networkLink.textContent = "Network";
+      networkLink.textContent = "Network ↗";
       networkLink.setAttribute("aria-label", `View ${item.name} in the resource network`);
       const detailsButton = document.createElement("button");
       detailsButton.type = "button";

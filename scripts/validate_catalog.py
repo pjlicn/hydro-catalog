@@ -50,6 +50,83 @@ def is_web_url(value: str) -> bool:
     return parsed.scheme in {"http", "https"} and bool(parsed.netloc)
 
 
+def jaccard(left: list[str], right: list[str]) -> tuple[float, list[str]]:
+    left_values = set(left)
+    right_values = set(right)
+    shared = sorted(left_values & right_values)
+    union = left_values | right_values
+    return (len(shared) / len(union) if union else 0.0), shared
+
+
+def build_network_edges(items: list[dict]) -> list[dict]:
+    candidates: list[dict] = []
+    incident: dict[str, list[dict]] = {item["id"]: [] for item in items}
+
+    for left_index, left in enumerate(items):
+        for right in items[left_index + 1 :]:
+            theme_similarity, themes = jaccard(left["themes"], right["themes"])
+            if not themes:
+                continue
+            category_similarity, categories = jaccard(left["categories"], right["categories"])
+            key = tuple(sorted((left["id"], right["id"])))
+            edge = {
+                "source": left["id"],
+                "target": right["id"],
+                "themes": themes,
+                "categories": categories,
+                "score": (0.75 * category_similarity) + (0.25 * theme_similarity),
+                "key": key,
+            }
+            candidates.append(edge)
+            incident[left["id"]].append(edge)
+            incident[right["id"]].append(edge)
+
+    selected: dict[tuple[str, str], dict] = {}
+    for item in items:
+        ranked = sorted(incident[item["id"]], key=lambda edge: (-edge["score"], edge["key"]))
+        for edge in ranked[:2]:
+            selected[edge["key"]] = edge
+
+    return [selected[key] for key in sorted(selected)]
+
+
+def validate_network(payload: list[dict]) -> tuple[list[str], list[dict]]:
+    errors: list[str] = []
+    items = [
+        item
+        for item in payload
+        if isinstance(item, dict)
+        and isinstance(item.get("id"), str)
+        and isinstance(item.get("themes"), list)
+        and item["themes"]
+        and isinstance(item.get("categories"), list)
+        and item["categories"]
+    ]
+    if len(items) != len(payload):
+        return ["Network validation requires a valid id, themes, and categories for every resource."], []
+
+    edges = build_network_edges(items)
+    edge_keys: set[tuple[str, str]] = set()
+    degree = {item["id"]: 0 for item in items}
+    for edge in edges:
+        key = edge["key"]
+        if edge["source"] == edge["target"]:
+            errors.append(f"Network contains a self-loop for {edge['source']!r}.")
+        if key in edge_keys:
+            errors.append(f"Network contains duplicate edge {key!r}.")
+        edge_keys.add(key)
+        if not edge["themes"]:
+            errors.append(f"Network edge {key!r} does not share a research theme.")
+        degree[edge["source"]] += 1
+        degree[edge["target"]] += 1
+
+    isolated = sorted(item_id for item_id, count in degree.items() if count == 0)
+    if isolated:
+        errors.append(f"Network contains isolated resources {isolated!r}.")
+
+    return errors, edges
+
+
 def validate() -> list[str]:
     errors: list[str] = []
     try:
@@ -88,6 +165,8 @@ def validate() -> list[str]:
                 errors.append(f"{label}: {field} must be a non-empty array.")
             elif not all(isinstance(entry, str) and entry.strip() for entry in value):
                 errors.append(f"{label}: {field} may only contain non-empty strings.")
+            elif len(value) != len(set(value)):
+                errors.append(f"{label}: {field} may not contain duplicate values.")
 
         if item.get("type") not in ALLOWED_TYPES:
             errors.append(f"{label}: unsupported type {item.get('type')!r}.")
@@ -159,6 +238,9 @@ def validate() -> list[str]:
     if uncited_reference_ids:
         errors.append(f"References contains uncited works {sorted(uncited_reference_ids)!r}.")
 
+    network_errors, _ = validate_network(payload)
+    errors.extend(network_errors)
+
     return errors
 
 
@@ -172,7 +254,18 @@ def main() -> int:
 
     payload = json.loads(CATALOG_PATH.read_text(encoding="utf-8"))
     references = json.loads(REFERENCES_PATH.read_text(encoding="utf-8"))
-    print(f"Catalog validation passed: {len(payload)} resources and {len(references)} cited works.")
+    _, edges = validate_network(payload)
+    degree = {item["id"]: 0 for item in payload}
+    for edge in edges:
+        degree[edge["source"]] += 1
+        degree[edge["target"]] += 1
+    degree_values = list(degree.values())
+    average_degree = sum(degree_values) / len(degree_values)
+    print(
+        f"Catalog validation passed: {len(payload)} resources, {len(references)} cited works, "
+        f"and {len(edges)} network edges (degree {min(degree_values)}-{max(degree_values)}, "
+        f"average {average_degree:.2f})."
+    )
     return 0
 
 

@@ -41,7 +41,6 @@
   --network-bg: #f1f7f5;
   --network-grid: rgba(7, 59, 76, .055);
   --network-label-halo: #f1f7f5;
-  --network-theme-edge: #a9c4c1;
   --network-similarity-edge: #789ca3;
   --theme-0: #168aad;
   --theme-1: #a97818;
@@ -98,7 +97,6 @@
   --network-bg: #0a1b21;
   --network-grid: rgba(139, 190, 194, .06);
   --network-label-halo: #0a1b21;
-  --network-theme-edge: #42666a;
   --network-similarity-edge: #527a80;
   --theme-0: #35aed0;
   --theme-1: #d4a64c;
@@ -284,9 +282,10 @@ nav .repo-link { padding: 9px 15px; border: 1px solid rgba(255,255,255,.28); bor
 .status-badge.verified { color: var(--success); background: var(--success-bg); }
 .status-badge.needs-verification { color: var(--neutral-status); background: var(--neutral-status-bg); }
 .card-open, .card-network-link {
-  padding: 0; color: var(--blue); background: transparent; border: 0;
-  font-size: .78rem; font-weight: 800; text-decoration: none; cursor: pointer;
+  color: var(--blue); font-size: .78rem; font-weight: 800; text-decoration: none; cursor: pointer;
 }
+.card-open { padding: 0; background: transparent; border: 0; }
+.card-network-link { padding: 4px 8px; background: var(--surface-subtle); border: 1px solid var(--line); border-radius: 999px; }
 .card-open:hover, .card-network-link:hover { text-decoration: underline; text-underline-offset: 3px; }
 .empty-state, .error-state { margin-top: 20px; padding: 55px 25px; text-align: center; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
 .empty-state > span { color: var(--teal); font-size: 3rem; }
@@ -422,7 +421,7 @@ nav .repo-link { padding: 9px 15px; border: 1px solid rgba(255,255,255,.28); bor
   width: 100%; min-height: 42px; padding: 8px 10px; color: var(--ink); background: var(--paper);
   border: 1px solid var(--line); border-radius: 8px;
 }
-.network-view-controls { display: flex; gap: 7px; }
+.network-view-controls { display: flex; flex-wrap: wrap; gap: 7px; }
 .network-view-controls button {
   min-width: 42px; min-height: 42px; padding: 8px 12px; color: var(--ink); background: var(--paper);
   border: 1px solid var(--line-strong); border-radius: 8px; cursor: pointer; font-weight: 750;
@@ -442,8 +441,10 @@ nav .repo-link { padding: 9px 15px; border: 1px solid rgba(255,255,255,.28); bor
 .network-canvas svg { width: 100%; height: 100%; display: block; touch-action: none; cursor: grab; user-select: none; }
 .network-canvas svg:active { cursor: grabbing; }
 .network-edge { vector-effect: non-scaling-stroke; transition: opacity .15s ease, stroke .15s ease, stroke-width .15s ease; }
-.network-theme-edge { stroke: var(--network-theme-edge); stroke-width: 1; opacity: .32; }
-.network-similarity-edge { stroke: var(--network-similarity-edge); stroke-width: 1.35; stroke-dasharray: 4 4; opacity: .42; }
+.network-similarity-edge {
+  stroke: var(--network-similarity-edge); stroke-width: 1.35; stroke-dasharray: 4 4;
+  opacity: .42; pointer-events: stroke;
+}
 .network-edge.active { stroke: var(--teal); stroke-width: 2.4; opacity: .95; }
 .network-edge.dimmed { opacity: .07; }
 .network-node { transition: opacity .15s ease; }
@@ -467,15 +468,6 @@ nav .repo-link { padding: 9px 15px; border: 1px solid rgba(255,255,255,.28); bor
 .network-resource-node.active .network-node-core { r: 13; }
 .network-resource-node.selected .network-node-core { r: 15; stroke: var(--focus); stroke-width: 4; }
 .network-node.dimmed { opacity: .15; }
-.network-theme-node { cursor: pointer; }
-.network-theme-node circle { fill: var(--node-color); stroke: var(--surface); stroke-width: 4; }
-.network-theme-node text {
-  max-width: 150px; fill: var(--ink); stroke: var(--network-label-halo); stroke-width: 4;
-  paint-order: stroke; font: 750 11px var(--sans);
-}
-.network-theme-node:hover circle,
-.network-theme-node:focus circle,
-.network-theme-node.active circle { stroke: var(--focus); stroke-width: 5; }
 .theme-color-0 { --node-color: var(--theme-0); }
 .theme-color-1 { --node-color: var(--theme-1); }
 .theme-color-2 { --node-color: var(--theme-2); }
@@ -502,8 +494,7 @@ nav .repo-link { padding: 9px 15px; border: 1px solid rgba(255,255,255,.28); bor
 .theme-bg-2 { background: var(--theme-2); }
 .theme-bg-3 { background: var(--theme-3); }
 .theme-bg-4 { background: var(--theme-4); }
-.network-legend-line { width: 20px; display: inline-block; border-top: 1px solid var(--network-theme-edge); }
-.network-legend-line.similarity-line { border-top: 1px dashed var(--network-similarity-edge); }
+.network-legend-line { width: 20px; display: inline-block; border-top: 1px dashed var(--network-similarity-edge); }
 .network-alert {
   margin-bottom: 15px; padding: 11px 14px; color: var(--error-ink); background: var(--error-bg);
   border: 1px solid var(--error-line); border-radius: 9px; font-size: .84rem;
@@ -519,7 +510,21 @@ nav .repo-link { padding: 9px 15px; border: 1px solid rgba(255,255,255,.28); bor
   margin: 25px 0 11px; padding-top: 20px; border-top: 1px solid var(--line);
   font: 800 .72rem var(--sans); letter-spacing: .09em; text-transform: uppercase;
 }
+.network-resource-profile > h2 { margin-bottom: 12px; }
+.network-resource-profile > p { color: var(--ink-soft); font-size: .9rem; }
 .network-inspector-badges { margin-bottom: 13px; display: flex; flex-wrap: wrap; gap: 7px; }
+.network-inspector-meta {
+  margin: 20px 0 0; padding: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 18px;
+  background: var(--surface-subtle); border: 1px solid var(--line); border-radius: 10px;
+}
+.network-inspector-meta dt { color: var(--ink-soft); font-size: .68rem; }
+.network-inspector-meta dd { margin: 3px 0 0; font-size: .8rem; font-weight: 700; line-height: 1.35; }
+.network-inspector-section h3 { margin-top: 20px; padding-top: 17px; }
+.network-inspector-section ul {
+  margin: 0; padding-left: 18px; color: var(--ink-soft); font-size: .82rem; line-height: 1.5;
+}
+.network-inspector-section li + li { margin-top: 6px; }
+.network-inspector-taxonomy { display: flex; flex-wrap: wrap; gap: 6px; }
 .network-inspector-actions { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 8px 14px; }
 .network-inspector-actions a { color: var(--blue); font-size: .78rem; font-weight: 750; text-decoration: none; }
 .network-inspector-actions a:hover { text-decoration: underline; text-underline-offset: 3px; }
@@ -536,6 +541,22 @@ nav .repo-link { padding: 9px 15px; border: 1px solid rgba(255,255,255,.28); bor
 .network-neighbor-list span { display: block; margin-top: 3px; color: var(--ink-soft); font-size: .72rem; }
 .network-neighbor-empty { color: var(--ink-soft); font-size: .82rem; }
 .network-count { margin: 24px 0 0; color: var(--ink-soft); font-size: .75rem; }
+.network-accessible {
+  margin-top: 18px; padding: 13px 15px; color: var(--ink-soft);
+  background: var(--surface); border: 1px solid var(--line); border-radius: 9px;
+}
+.network-accessible summary { color: var(--ink); font-size: .8rem; font-weight: 750; cursor: pointer; }
+.network-accessible ul {
+  margin: 13px 0 0; padding: 13px 0 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px 20px; border-top: 1px solid var(--line); list-style: none;
+}
+.network-accessible button {
+  padding: 3px 0; color: var(--blue); background: transparent; border: 0;
+  text-align: left; font-size: .78rem; cursor: pointer;
+}
+.network-accessible button:hover, .network-accessible button[aria-current="true"] {
+  text-decoration: underline; text-underline-offset: 3px;
+}
 
 @media (max-width: 1000px) {
   .theme-grid { grid-template-columns: repeat(3, 1fr); }
@@ -545,6 +566,7 @@ nav .repo-link { padding: 9px 15px; border: 1px solid rgba(255,255,255,.28); bor
   .network-layout { grid-template-columns: minmax(0, 1fr) 290px; }
   .network-toolbar { grid-template-columns: 1.4fr 1fr 1fr; }
   .network-view-controls { grid-column: 1 / -1; }
+  .network-inspector-meta { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 760px) {
@@ -583,6 +605,7 @@ nav .repo-link { padding: 9px 15px; border: 1px solid rgba(255,255,255,.28); bor
   .network-layout { grid-template-columns: 1fr; }
   .network-canvas { height: 66vh; min-height: 520px; }
   .network-inspector { position: static; max-height: none; }
+  .network-accessible ul { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 480px) {
