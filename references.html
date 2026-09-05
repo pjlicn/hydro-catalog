@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en" class="references-page">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#073b4c">
+    <title>References | Hydrological Research Catalog</title>
+    <meta
+      name="description"
+      content="References cited by the Hydrological Research Catalog, formatted in AGU author–year style."
+    >
+    <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+    <script src="./assets/js/theme.js"></script>
+    <link rel="license" href="./LICENSE">
+    <link rel="license" href="./LICENSE-CONTENT.md">
+    <link rel="stylesheet" href="./assets/css/styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#references-list">Skip to references</a>
+
+    <header class="site-header">
+      <div class="container nav-inner">
+        <a class="brand" href="./" aria-label="Hydrological Research Catalog home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 42 42" role="img">
+              <path d="M21 4C16 12 9 18 9 26a12 12 0 0 0 24 0c0-8-7-14-12-22Z"></path>
+              <path d="M14 28c4 3 10 3 14 0"></path>
+            </svg>
+          </span>
+          <span>Hydrological<br>Research Catalog</span>
+        </a>
+        <nav aria-label="Primary navigation">
+          <a href="./#themes">Themes</a>
+          <a href="./#catalog">Explore</a>
+          <a href="./network.html">Network</a>
+          <a href="./#methodology">Methodology</a>
+          <a class="repo-link" href="./">Back to catalog</a>
+          <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme">
+            <svg class="theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="4"></circle>
+              <path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+            </svg>
+            <svg class="theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z"></path>
+            </svg>
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="references-hero">
+        <div class="container">
+          <p class="eyebrow">Cited literature</p>
+          <h1>References</h1>
+          <p>
+            Works cited in resource descriptions are listed in AGU author–year style. Entries link to the
+            publisher or persistent identifier whenever available.
+          </p>
+        </div>
+      </section>
+
+      <section class="references-section">
+        <div class="container references-layout">
+          <aside>
+            <p class="eyebrow">About this list</p>
+            <p>Only works cited in the catalog are included.</p>
+            <p id="reference-count" aria-live="polite">Loading references…</p>
+            <a href="./#catalog">Return to catalog →</a>
+          </aside>
+          <div>
+            <ol id="references-list" class="references-list"></ol>
+            <div id="references-error" class="error-state" hidden role="alert"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div>
+          <a class="brand footer-brand" href="./">
+            <span class="brand-mark" aria-hidden="true">⌁</span>
+            <span>Hydrological Research Catalog</span>
+          </a>
+          <p>A curated gateway to hydrological research resources.</p>
+        </div>
+        <div>
+          <strong>Catalog</strong>
+          <a href="./#themes">Research themes</a>
+          <a href="./#catalog">All resources</a>
+          <a href="./network.html">Resource network</a>
+          <a href="./references.html" aria-current="page">References</a>
+          <a href="./hydrography-resource-selection-guide.html">Hydrography guide</a>
+        </div>
+        <div>
+          <strong>Contribute</strong>
+          <a href="https://github.com/pjlicn/hydro-catalog" target="_blank" rel="noopener noreferrer">GitHub repository ↗</a>
+          <a href="https://github.com/pjlicn/hydro-catalog/issues" target="_blank" rel="noopener noreferrer">Suggest a resource ↗</a>
+        </div>
+      </div>
+      <div class="container footer-bottom">
+        <span>
+          Curated and maintained by
+          <a href="https://pjlicn.github.io/cv/" target="_blank" rel="noopener noreferrer">Peijun Li</a>
+        </span>
+        <span>
+          <a href="./LICENSE" rel="license">Code: PolyForm NC</a>
+          ·
+          <a href="./LICENSE-CONTENT.md" rel="license">Content: CC BY-NC</a>
+          ·
+          <a href="https://pjlicn.github.io/cv/" target="_blank" rel="noopener noreferrer">Commercial licensing</a>
+        </span>
+      </div>
+    </footer>
+
+    <script src="./assets/js/references.js" defer></script>
+  </body>
+</html>

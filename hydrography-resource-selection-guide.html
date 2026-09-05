@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en" class="hydrography-guide-page">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#073b4c">
+    <title>Hydrography Resource Selection Guide | Hydrological Research Catalog</title>
+    <meta
+      name="description"
+      content="Compare SWORD, MERIT Hydro, NHDPlus High Resolution, NOAA NextGen Hydrofabric, and HydroSHEDS for hydrological research."
+    >
+    <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+    <script src="./assets/js/theme.js"></script>
+    <link rel="license" href="./LICENSE">
+    <link rel="license" href="./LICENSE-CONTENT.md">
+    <link rel="stylesheet" href="./assets/css/styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#comparison">Skip to comparison guide</a>
+
+    <header class="site-header">
+      <div class="container nav-inner">
+        <a class="brand" href="./" aria-label="Hydrological Research Catalog home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 42 42" role="img">
+              <path d="M21 4C16 12 9 18 9 26a12 12 0 0 0 24 0c0-8-7-14-12-22Z"></path>
+              <path d="M14 28c4 3 10 3 14 0"></path>
+            </svg>
+          </span>
+          <span>Hydrological<br>Research Catalog</span>
+        </a>
+        <nav aria-label="Primary navigation">
+          <a href="./#catalog">Explore</a>
+          <a href="./network.html">Network</a>
+          <a href="./references.html">References</a>
+          <a class="repo-link" href="./">Back to catalog</a>
+          <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme">
+            <svg class="theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="4"></circle>
+              <path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+            </svg>
+            <svg class="theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z"></path>
+            </svg>
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="guide-hero">
+        <div class="container">
+          <p class="eyebrow">Hydrography resource guide</p>
+          <h1>Choose the hydrography framework that fits your question.</h1>
+          <p>
+            SWORD, MERIT Hydro, NHDPlus High Resolution, NOAA NextGen Hydrofabric, and HydroSHEDS describe
+            related parts of the hydrologic landscape, but they are not interchangeable. Use this guide to match
+            geographic scope, representation, topology, resolution, and intended workflow before downloading data.
+          </p>
+          <div class="guide-hero-actions">
+            <a class="guide-primary-link" href="#comparison">Compare resources</a>
+            <a href="./?resource=hydrography-resource-selection-guide">Open catalog record</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="comparison" class="guide-section" aria-labelledby="comparison-heading">
+        <div class="container">
+          <div class="guide-section-intro">
+            <p class="eyebrow">At a glance</p>
+            <h2 id="comparison-heading">Five resources, five starting points</h2>
+            <p>Start with the row that matches your domain and the kind of hydrography your analysis needs.</p>
+          </div>
+          <div class="guide-table-wrap" tabindex="0" aria-label="Scrollable hydrography resource comparison">
+            <table class="guide-comparison-table">
+              <caption class="sr-only">Comparison of five hydrography resources</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Resource</th>
+                  <th scope="col">Primary purpose</th>
+                  <th scope="col">Coverage and representation</th>
+                  <th scope="col">Best fit</th>
+                  <th scope="col">Main caveat</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row"><a href="./?resource=sword">SWORD</a></th>
+                  <td>Prior river network for SWOT river vector products.</td>
+                  <td>Global reaches of about 10 km and nodes at about 200 m spacing; version dependent.</td>
+                  <td>SWOT RiverSP matching, satellite river morphology, global river reaches.</td>
+                  <td>Match the release to the target SWOT product; v17b is the Version D baseline.</td>
+                </tr>
+                <tr>
+                  <th scope="row"><a href="./?resource=merit-hydro">MERIT Hydro</a></th>
+                  <td>DEM-derived global hydrography and terrain attributes.</td>
+                  <td>Global land hydrography at about 90 m, with flow direction, accumulation, and terrain fields.</td>
+                  <td>Global routing, drainage analysis, flood and hydrodynamic modeling.</td>
+                  <td>Review D8 flow-direction and known coastal, glacier, bifurcation, and human-water limitations.</td>
+                </tr>
+                <tr>
+                  <th scope="row"><a href="./?resource=hydrosheds">HydroSHEDS</a></th>
+                  <td>Multi-product global hydrographic layers for basin analysis.</td>
+                  <td>Global grids, river networks, basins, and related layers at product-dependent resolutions.</td>
+                  <td>Watershed delineation, basin comparison, and broad hydro-environmental modeling.</td>
+                  <td>Coverage, resolution, northern-latitude behavior, and licenses vary by product.</td>
+                </tr>
+                <tr>
+                  <th scope="row"><a href="./?resource=nhdplus-hr">NHDPlus High Resolution</a></th>
+                  <td>Detailed United States hydrography with value-added attributes.</td>
+                  <td>U.S. stream networks, boundaries, elevation-derived catchments, and flow connectivity.</td>
+                  <td>U.S. watershed and routing analysis at high spatial detail.</td>
+                  <td>Primarily U.S. coverage; archives and availability vary by processing unit.</td>
+                </tr>
+                <tr>
+                  <th scope="row"><a href="./?resource=nextgen-hydrofabric">NOAA NextGen Hydrofabric</a></th>
+                  <td>Model-ready hydrologic geospatial fabric for NextGen workflows.</td>
+                  <td>U.S. catchments, flowpaths, hydrolocations, and cloud-native model artifacts.</td>
+                  <td>NOAA NextGen domains, parameterization, and operational model integration.</td>
+                  <td>Release artifacts can be provisional or domain-specific; review ODbL obligations.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="guide-table-note">The links in the first column open each resource's full catalog record, where metadata, limitations, and citations are maintained.</p>
+        </div>
+      </section>
+
+      <section class="guide-section guide-resource-section" aria-labelledby="details-heading">
+        <div class="container">
+          <div class="guide-section-intro">
+            <p class="eyebrow">Detailed distinctions</p>
+            <h2 id="details-heading">How the resources differ in practice</h2>
+          </div>
+          <div class="guide-resource-grid">
+            <article id="sword" class="guide-resource-card">
+              <p class="guide-resource-kicker">Satellite-aligned river network</p>
+              <h3>SWORD</h3>
+              <p>SWORD is the river-reach and node framework built to organize SWOT river vector products. Its global topology and morphology fields are useful when observations need to be attached to consistent reaches or nodes.</p>
+              <dl><div><dt>Choose it for</dt><dd>SWOT RiverSP matching, satellite river observation, and global reach-scale morphology.</dd></div><div><dt>Check first</dt><dd>Use the release named by your target SWOT product. Record the version; v17c is newer than the v17b Version D baseline.</dd></div></dl>
+              <div class="guide-resource-links"><a href="./?resource=sword">Catalog record</a><a href="https://doi.org/10.5281/zenodo.3898569" target="_blank" rel="noopener noreferrer">Official archive</a></div>
+            </article>
+            <article id="merit-hydro" class="guide-resource-card">
+              <p class="guide-resource-kicker">Global DEM-derived hydrography</p>
+              <h3>MERIT Hydro</h3>
+              <p>MERIT Hydro provides a global drainage framework derived from the MERIT DEM, including flow direction, upstream area, gradient, river width, and height-above-nearest-drainage attributes.</p>
+              <dl><div><dt>Choose it for</dt><dd>Global routing, drainage and terrain analysis, flood modeling, and hydrodynamic applications.</dd></div><div><dt>Check first</dt><dd>Review its D8 representation and known limitations around coasts, bifurcations, glaciers, and managed channels.</dd></div></dl>
+              <div class="guide-resource-links"><a href="./?resource=merit-hydro">Catalog record</a><a href="https://global-hydrodynamics.github.io/MERIT_Hydro/" target="_blank" rel="noopener noreferrer">Official resource</a></div>
+            </article>
+            <article id="hydrosheds" class="guide-resource-card">
+              <p class="guide-resource-kicker">Global multi-resolution hydrography</p>
+              <h3>HydroSHEDS</h3>
+              <p>HydroSHEDS is a family of hydrographic products rather than one single layer. It supports basin, river-network, drainage, and hydro-environmental analysis across global domains.</p>
+              <dl><div><dt>Choose it for</dt><dd>Watershed delineation, basin-scale comparison, global hydro-environmental modeling, and product-specific hydrography.</dd></div><div><dt>Check first</dt><dd>Confirm the exact product, resolution, geographic coverage, northern-latitude behavior, and license.</dd></div></dl>
+              <div class="guide-resource-links"><a href="./?resource=hydrosheds">Catalog record</a><a href="https://www.hydrosheds.org/products/hydrosheds" target="_blank" rel="noopener noreferrer">Official resource</a></div>
+            </article>
+            <article id="nhdplus-hr" class="guide-resource-card">
+              <p class="guide-resource-kicker">Detailed U.S. hydrography</p>
+              <h3>NHDPlus High Resolution</h3>
+              <p>NHDPlus High Resolution combines detailed U.S. stream networks, watershed boundaries, elevation-derived catchments, flow connectivity, and value-added hydrologic attributes.</p>
+              <dl><div><dt>Choose it for</dt><dd>High-resolution U.S. watershed, stream-network, connectivity, and routing analysis.</dd></div><div><dt>Check first</dt><dd>Coverage and archive size vary by processing unit; it is not a global hydrography product.</dd></div></dl>
+              <div class="guide-resource-links"><a href="./?resource=nhdplus-hr">Catalog record</a><a href="https://www.usgs.gov/national-hydrography/nhdplus-high-resolution" target="_blank" rel="noopener noreferrer">Official resource</a></div>
+            </article>
+            <article id="nextgen-hydrofabric" class="guide-resource-card">
+              <p class="guide-resource-kicker">Model-ready U.S. fabric</p>
+              <h3>NOAA NextGen Hydrofabric</h3>
+              <p>The NextGen Hydrofabric organizes catchments, flowpaths, hydrolocations, topology, and model attributes into cloud-native artifacts for NOAA's NextGen water-resources modeling framework.</p>
+              <dl><div><dt>Choose it for</dt><dd>NextGen model domains, parameterization, catchment subsetting, and operational model integration.</dd></div><div><dt>Check first</dt><dd>Release artifacts may be provisional or domain-specific, and adapted databases must follow ODbL conditions.</dd></div></dl>
+              <div class="guide-resource-links"><a href="./?resource=nextgen-hydrofabric">Catalog record</a><a href="https://noaa-owp.github.io/hydrofabric/" target="_blank" rel="noopener noreferrer">Official resource</a></div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="guide-section guide-decision-section" aria-labelledby="decision-heading">
+        <div class="container guide-decision-grid">
+          <div>
+            <p class="eyebrow">Decision aid</p>
+            <h2 id="decision-heading">Which one should I use?</h2>
+          </div>
+          <ol class="guide-decision-list">
+            <li><strong>Need SWOT river observations?</strong> Start with SWORD, then match its release to the RiverSP product.</li>
+            <li><strong>Need global drainage or routing?</strong> Compare MERIT Hydro and HydroSHEDS according to terrain attributes, product resolution, and basin workflow.</li>
+            <li><strong>Need detailed U.S. hydrography?</strong> Use NHDPlus High Resolution for analysis; use NextGen Hydrofabric when the target is a model-ready NextGen domain.</li>
+            <li><strong>Need to combine resources?</strong> Treat them as different spatial supports and topologies. Harmonize identifiers, flow direction, catchment definitions, resolution, and version before joining or routing across products.</li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="guide-section guide-notes-section" aria-labelledby="notes-heading">
+        <div class="container guide-notes">
+          <p class="eyebrow">Reproducibility notes</p>
+          <h2 id="notes-heading">Check the product before citing or integrating it.</h2>
+          <p>Product names can cover multiple releases and formats. Record the dataset version, download date, spatial support, topology or identifier scheme, and license in your analysis notes. Consult the official source and the catalog record for the exact release used.</p>
+          <p>This guide provides research orientation; it does not replace official product documentation, release notes, or license terms.</p>
+          <div class="guide-notes-links"><a href="./references.html">Review catalog references</a><a href="./?resource=hydrography-resource-selection-guide">Return to guide catalog record</a></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div>
+          <a class="brand footer-brand" href="./">
+            <span class="brand-mark" aria-hidden="true">⌁</span>
+            <span>Hydrological Research Catalog</span>
+          </a>
+          <p>A curated gateway to hydrological research resources.</p>
+        </div>
+        <div>
+          <strong>Catalog</strong>
+          <a href="./#themes">Research themes</a>
+          <a href="./#catalog">All resources</a>
+          <a href="./network.html">Resource network</a>
+          <a href="./references.html">References</a>
+          <a href="./hydrography-resource-selection-guide.html" aria-current="page">Hydrography guide</a>
+        </div>
+        <div>
+          <strong>Contribute</strong>
+          <a href="https://github.com/pjlicn/hydro-catalog" target="_blank" rel="noopener noreferrer">GitHub repository ↗</a>
+          <a href="https://github.com/pjlicn/hydro-catalog/issues" target="_blank" rel="noopener noreferrer">Suggest a resource ↗</a>
+        </div>
+      </div>
+      <div class="container footer-bottom">
+        <span>Curated and maintained by <a href="https://pjlicn.github.io/cv/" target="_blank" rel="noopener noreferrer">Peijun Li</a></span>
+        <span><a href="./LICENSE" rel="license">Code: PolyForm NC</a> · <a href="./LICENSE-CONTENT.md" rel="license">Content: CC BY-NC</a> · <a href="https://pjlicn.github.io/cv/" target="_blank" rel="noopener noreferrer">Commercial licensing</a></span>
+      </div>
+    </footer>
+  </body>
+</html>

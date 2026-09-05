@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#073b4c">
+    <title>Hydrological Research Catalog</title>
+    <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+    <meta
+      name="description"
+      content="Explore verified hydrological datasets, methods, software platforms, and reference guides."
+    >
+    <script src="./assets/js/theme.js"></script>
+    <link rel="license" href="./LICENSE">
+    <link rel="license" href="./LICENSE-CONTENT.md">
+    <link rel="stylesheet" href="./assets/css/styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#catalog">Skip to catalog</a>
+
+    <header class="site-header">
+      <div class="container nav-inner">
+        <a class="brand" href="./" aria-label="Hydrological Research Catalog home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 42 42" role="img">
+              <path d="M21 4C16 12 9 18 9 26a12 12 0 0 0 24 0c0-8-7-14-12-22Z"></path>
+              <path d="M14 28c4 3 10 3 14 0"></path>
+            </svg>
+          </span>
+          <span>Hydrological<br>Research Catalog</span>
+        </a>
+        <nav aria-label="Primary navigation">
+          <a href="#themes">Themes</a>
+          <a href="#catalog">Explore</a>
+          <a href="./network.html">Network</a>
+          <a href="#methodology">Methodology</a>
+          <a class="repo-link" href="https://github.com/pjlicn/hydro-catalog" target="_blank" rel="noopener noreferrer">
+            GitHub <span aria-hidden="true">↗</span>
+          </a>
+          <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme">
+            <svg class="theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="4"></circle>
+              <path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+            </svg>
+            <svg class="theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z"></path>
+            </svg>
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow">Public research infrastructure</p>
+            <h1>Find the right resources for <span>hydrological research.</span></h1>
+            <p class="hero-intro">
+              A curated guide to datasets, analytical and modeling methods, software platforms, and reference guides
+              across the modern hydrology workflow.
+            </p>
+            <form id="hero-search-form" class="hero-search" role="search">
+              <label class="sr-only" for="hero-search">Search the catalog</label>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.4-4.4m2.4-5.1a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z"></path></svg>
+              <input id="hero-search" type="search" placeholder="Search datasets, methods, guides…" autocomplete="off">
+              <button type="submit">Search</button>
+            </form>
+            <div class="popular-searches" aria-label="Popular searches">
+              <span>Popular:</span>
+              <button type="button" data-search="soil moisture">Soil moisture</button>
+              <button type="button" data-search="rainfall-runoff">Rainfall–runoff</button>
+              <button type="button" data-search="differentiable">Differentiable</button>
+            </div>
+          </div>
+          <div class="hero-visual" aria-hidden="true">
+            <svg viewBox="0 0 520 360" role="img">
+              <defs>
+                <linearGradient id="river" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#58d5c9"></stop>
+                  <stop offset="1" stop-color="#0c88aa"></stop>
+                </linearGradient>
+              </defs>
+              <path class="contour" d="M12 302c83-74 135-13 205-72s103-148 292-103"></path>
+              <path class="contour" d="M-5 338c96-86 157-14 237-81S347 91 531 163"></path>
+              <path class="contour" d="M54 349c91-50 160-8 229-87s128-104 222-68"></path>
+              <path class="river" d="M349 13c-15 58-78 65-69 117 7 44 78 50 59 100-15 39-73 54-87 113"></path>
+              <circle cx="280" cy="130" r="8"></circle>
+              <circle cx="339" cy="230" r="8"></circle>
+              <circle cx="252" cy="343" r="8"></circle>
+              <g class="visual-card card-a">
+                <rect width="142" height="74" rx="12"></rect>
+                <circle cx="24" cy="25" r="9"></circle>
+                <path d="M43 21h72M43 30h52M18 50h98"></path>
+              </g>
+              <g class="visual-card card-b">
+                <rect width="126" height="66" rx="12"></rect>
+                <circle cx="23" cy="23" r="8"></circle>
+                <path d="M40 20h62M40 29h43M17 47h85"></path>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </section>
+
+      <section class="stats-band" aria-label="Catalog statistics">
+        <div class="container stats-grid">
+          <div><strong id="stat-resources">—</strong><span>Curated resources</span></div>
+          <div><strong id="stat-types">—</strong><span>Resource types</span></div>
+          <div><strong id="stat-verified">—</strong><span>Officially verified</span></div>
+          <div><strong id="stat-themes">5</strong><span>Research themes</span></div>
+        </div>
+      </section>
+
+      <section id="themes" class="themes-section container" aria-labelledby="themes-heading">
+        <div class="section-intro">
+          <div>
+            <p class="eyebrow">Research pathways</p>
+            <h2 id="themes-heading">Explore by theme</h2>
+          </div>
+          <p>Start with a research question, then narrow the catalog with detailed filters.</p>
+        </div>
+        <div id="theme-grid" class="theme-grid"></div>
+      </section>
+
+      <section id="catalog" class="catalog-section" aria-labelledby="catalog-heading">
+        <div class="container">
+          <div class="section-intro catalog-intro">
+            <div>
+              <p class="eyebrow">Resource library</p>
+              <h2 id="catalog-heading">Explore the catalog</h2>
+            </div>
+            <button id="mobile-filter-button" class="mobile-filter-button" type="button" aria-controls="filter-panel" aria-expanded="false">
+              Filters <span id="mobile-filter-count"></span>
+            </button>
+          </div>
+
+          <div class="catalog-layout">
+            <aside id="filter-panel" class="filter-panel" aria-label="Catalog filters">
+              <div class="filter-panel-head">
+                <h3>Filter resources</h3>
+                <button id="mobile-filter-close" class="icon-button mobile-only" type="button" aria-label="Close filters">×</button>
+              </div>
+              <div class="filter-search">
+                <label for="catalog-search">Search</label>
+                <div class="input-with-icon">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.4-4.4m2.4-5.1a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z"></path></svg>
+                  <input id="catalog-search" type="search" placeholder="Search resources…" autocomplete="off">
+                </div>
+              </div>
+              <div id="filter-groups"></div>
+              <button id="clear-filters" class="clear-button" type="button">Clear all filters</button>
+            </aside>
+
+            <div class="results-area">
+              <div id="active-filters" class="active-filters" aria-label="Active filters"></div>
+              <div class="results-toolbar">
+                <p id="result-count" aria-live="polite">Loading catalog…</p>
+                <label>
+                  <span>Sort by</span>
+                  <select id="sort-select">
+                    <option value="name">Name A–Z</option>
+                    <option value="type">Resource type</option>
+                    <option value="recent">Recently checked</option>
+                  </select>
+                </label>
+              </div>
+              <div id="catalog-grid" class="catalog-grid"></div>
+              <div id="empty-state" class="empty-state" hidden>
+                <span aria-hidden="true">⌁</span>
+                <h3>No matching resources</h3>
+                <p>Try a broader search or remove one of the active filters.</p>
+                <button type="button">Clear all filters</button>
+              </div>
+              <div id="error-state" class="error-state" hidden role="alert"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="methodology" class="methodology-section">
+        <div class="container methodology-grid">
+          <div>
+            <p class="eyebrow">Transparent curation</p>
+            <h2>Built for careful discovery</h2>
+            <p>
+              Entries prioritize official project pages, documentation, and primary literature. Uncertain metadata
+              remains visible as partially verified rather than being silently inferred.
+            </p>
+          </div>
+          <ul>
+            <li><span>01</span><div><strong>Source-led</strong><p>Official links and primary references anchor each entry.</p></div></li>
+            <li><span>02</span><div><strong>Use-aware</strong><p>Use cases and limitations stay alongside technical metadata.</p></div></li>
+            <li><span>03</span><div><strong>Maintained</strong><p>Verification dates make the catalog’s review state explicit.</p></div></li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div>
+          <a class="brand footer-brand" href="./">
+            <span class="brand-mark" aria-hidden="true">⌁</span>
+            <span>Hydrological Research Catalog</span>
+          </a>
+          <p>A curated gateway to hydrological research resources.</p>
+        </div>
+        <div>
+          <strong>Catalog</strong>
+          <a href="#themes">Research themes</a>
+          <a href="#catalog">All resources</a>
+          <a href="./network.html">Resource network</a>
+          <a href="./references.html">References</a>
+          <a href="./hydrography-resource-selection-guide.html">Hydrography guide</a>
+          <a href="#methodology">Methodology</a>
+        </div>
+        <div>
+          <strong>Contribute</strong>
+          <a href="https://github.com/pjlicn/hydro-catalog" target="_blank" rel="noopener noreferrer">GitHub repository ↗</a>
+          <a href="https://github.com/pjlicn/hydro-catalog/issues" target="_blank" rel="noopener noreferrer">Suggest a resource ↗</a>
+        </div>
+      </div>
+      <div class="container footer-bottom">
+        <span>
+          Curated and maintained by
+          <a href="https://pjlicn.github.io/cv/" target="_blank" rel="noopener noreferrer">Peijun Li</a>
+        </span>
+        <span>
+          <a href="./LICENSE" rel="license">Code: PolyForm NC</a>
+          ·
+          <a href="./LICENSE-CONTENT.md" rel="license">Content: CC BY-NC</a>
+          ·
+          <a href="https://pjlicn.github.io/cv/" target="_blank" rel="noopener noreferrer">Commercial licensing</a>
+        </span>
+      </div>
+    </footer>
+
+    <div id="filter-backdrop" class="backdrop" hidden></div>
+    <div id="detail-backdrop" class="backdrop detail-backdrop" hidden></div>
+    <aside id="detail-panel" class="detail-panel" role="dialog" aria-labelledby="detail-title" aria-hidden="true" inert tabindex="-1">
+      <div class="detail-panel-head">
+        <p class="eyebrow">Resource details</p>
+        <button id="detail-close" class="icon-button" type="button" aria-label="Close resource details">×</button>
+      </div>
+      <div id="detail-content"></div>
+    </aside>
+
+    <script src="./assets/js/app.js" defer></script>
+  </body>
+</html>

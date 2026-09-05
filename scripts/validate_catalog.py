@@ -1,0 +1,272 @@
+#!/usr/bin/env python3
+"""Validate the Hydrological Research Catalog without third-party packages."""
+
+from __future__ import annotations
+
+import json
+import re
+import sys
+from datetime import date
+from pathlib import Path
+from urllib.parse import urlparse
+
+
+ROOT = Path(__file__).resolve().parents[1]
+CATALOG_PATH = ROOT / "data" / "catalog.json"
+REFERENCES_PATH = ROOT / "data" / "references.json"
+
+ALLOWED_TYPES = {
+    "Dataset",
+    "Method",
+    "Benchmark",
+    "Research Challenge",
+    "Software / Platform",
+    "Reference / Guide",
+}
+ALLOWED_THEMES = {
+    "Hydrological Modeling",
+    "Statistical & Analytical Methods",
+    "Geospatial Computing",
+    "Machine Learning & Differentiable Modeling",
+    "Hydrometeorological Data & Platforms",
+}
+ALLOWED_STATUSES = {"Verified", "Partially verified", "Needs verification"}
+REQUIRED_TEXT_FIELDS = {
+    "id",
+    "name",
+    "type",
+    "description",
+    "provider",
+    "access",
+    "verificationStatus",
+}
+REQUIRED_LIST_FIELDS = {"themes", "categories", "useCases", "limitations", "tags", "referenceIds"}
+ID_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+
+
+def is_web_url(value: str) -> bool:
+    parsed = urlparse(value)
+    return parsed.scheme in {"http", "https"} and bool(parsed.netloc)
+
+
+def jaccard(left: list[str], right: list[str]) -> tuple[float, list[str]]:
+    left_values = set(left)
+    right_values = set(right)
+    shared = sorted(left_values & right_values)
+    union = left_values | right_values
+    return (len(shared) / len(union) if union else 0.0), shared
+
+
+def build_network_edges(items: list[dict]) -> list[dict]:
+    candidates: list[dict] = []
+    incident: dict[str, list[dict]] = {item["id"]: [] for item in items}
+
+    for left_index, left in enumerate(items):
+        for right in items[left_index + 1 :]:
+            theme_similarity, themes = jaccard(left["themes"], right["themes"])
+            if not themes:
+                continue
+            category_similarity, categories = jaccard(left["categories"], right["categories"])
+            key = tuple(sorted((left["id"], right["id"])))
+            edge = {
+                "source": left["id"],
+                "target": right["id"],
+                "themes": themes,
+                "categories": categories,
+                "score": (0.75 * category_similarity) + (0.25 * theme_similarity),
+                "key": key,
+            }
+            candidates.append(edge)
+            incident[left["id"]].append(edge)
+            incident[right["id"]].append(edge)
+
+    selected: dict[tuple[str, str], dict] = {}
+    for item in items:
+        ranked = sorted(incident[item["id"]], key=lambda edge: (-edge["score"], edge["key"]))
+        for edge in ranked[:2]:
+            selected[edge["key"]] = edge
+
+    return [selected[key] for key in sorted(selected)]
+
+
+def validate_network(payload: list[dict]) -> tuple[list[str], list[dict]]:
+    errors: list[str] = []
+    items = [
+        item
+        for item in payload
+        if isinstance(item, dict)
+        and isinstance(item.get("id"), str)
+        and isinstance(item.get("themes"), list)
+        and item["themes"]
+        and isinstance(item.get("categories"), list)
+        and item["categories"]
+    ]
+    if len(items) != len(payload):
+        return ["Network validation requires a valid id, themes, and categories for every resource."], []
+
+    edges = build_network_edges(items)
+    edge_keys: set[tuple[str, str]] = set()
+    degree = {item["id"]: 0 for item in items}
+    for edge in edges:
+        key = edge["key"]
+        if edge["source"] == edge["target"]:
+            errors.append(f"Network contains a self-loop for {edge['source']!r}.")
+        if key in edge_keys:
+            errors.append(f"Network contains duplicate edge {key!r}.")
+        edge_keys.add(key)
+        if not edge["themes"]:
+            errors.append(f"Network edge {key!r} does not share a research theme.")
+        degree[edge["source"]] += 1
+        degree[edge["target"]] += 1
+
+    isolated = sorted(item_id for item_id, count in degree.items() if count == 0)
+    if isolated:
+        errors.append(f"Network contains isolated resources {isolated!r}.")
+
+    return errors, edges
+
+
+def validate() -> list[str]:
+    errors: list[str] = []
+    try:
+        payload = json.loads(CATALOG_PATH.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        return [f"Could not read valid JSON from {CATALOG_PATH}: {exc}"]
+
+    if not isinstance(payload, list):
+        return ["The catalog root must be a JSON array."]
+
+    seen_ids: set[str] = set()
+    used_reference_ids: set[str] = set()
+    for index, item in enumerate(payload):
+        label = f"item {index + 1}"
+        if not isinstance(item, dict):
+            errors.append(f"{label}: must be an object.")
+            continue
+
+        item_id = item.get("id")
+        if isinstance(item_id, str) and item_id:
+            label = item_id
+            if item_id in seen_ids:
+                errors.append(f"{label}: duplicate id.")
+            seen_ids.add(item_id)
+            if not ID_PATTERN.fullmatch(item_id):
+                errors.append(f"{label}: id must use lowercase kebab-case.")
+
+        for field in REQUIRED_TEXT_FIELDS:
+            value = item.get(field)
+            if not isinstance(value, str) or not value.strip():
+                errors.append(f"{label}: {field} must be a non-empty string.")
+
+        for field in REQUIRED_LIST_FIELDS:
+            value = item.get(field)
+            if not isinstance(value, list) or not value:
+                errors.append(f"{label}: {field} must be a non-empty array.")
+            elif not all(isinstance(entry, str) and entry.strip() for entry in value):
+                errors.append(f"{label}: {field} may only contain non-empty strings.")
+            elif len(value) != len(set(value)):
+                errors.append(f"{label}: {field} may not contain duplicate values.")
+
+        if item.get("type") not in ALLOWED_TYPES:
+            errors.append(f"{label}: unsupported type {item.get('type')!r}.")
+
+        themes = item.get("themes", [])
+        if isinstance(themes, list):
+            unknown_themes = set(themes) - ALLOWED_THEMES
+            if unknown_themes:
+                errors.append(f"{label}: unsupported themes {sorted(unknown_themes)!r}.")
+
+        if item.get("verificationStatus") not in ALLOWED_STATUSES:
+            errors.append(f"{label}: unsupported verificationStatus.")
+
+        url = item.get("url", "")
+        if url and (not isinstance(url, str) or not is_web_url(url)):
+            errors.append(f"{label}: url must be an absolute HTTP(S) URL.")
+
+        checked = item.get("lastChecked", "")
+        if checked:
+            try:
+                date.fromisoformat(checked)
+            except (TypeError, ValueError):
+                errors.append(f"{label}: lastChecked must use YYYY-MM-DD.")
+
+        reference_ids = item.get("referenceIds", [])
+        if isinstance(reference_ids, list):
+            used_reference_ids.update(
+                reference_id for reference_id in reference_ids if isinstance(reference_id, str)
+            )
+
+    try:
+        references = json.loads(REFERENCES_PATH.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        return errors + [f"Could not read valid JSON from {REFERENCES_PATH}: {exc}"]
+
+    if not isinstance(references, list):
+        return errors + ["The references root must be a JSON array."]
+
+    seen_reference_ids: set[str] = set()
+    for index, reference in enumerate(references):
+        label = f"reference {index + 1}"
+        if not isinstance(reference, dict):
+            errors.append(f"{label}: must be an object.")
+            continue
+
+        reference_id = reference.get("id")
+        if isinstance(reference_id, str) and reference_id:
+            label = reference_id
+            if reference_id in seen_reference_ids:
+                errors.append(f"{label}: duplicate reference id.")
+            seen_reference_ids.add(reference_id)
+            if not ID_PATTERN.fullmatch(reference_id):
+                errors.append(f"{label}: reference id must use lowercase kebab-case.")
+
+        for field in {"id", "short", "citation", "url"}:
+            value = reference.get(field)
+            if not isinstance(value, str) or not value.strip():
+                errors.append(f"{label}: {field} must be a non-empty string.")
+
+        url = reference.get("url", "")
+        if url and (not isinstance(url, str) or not is_web_url(url)):
+            errors.append(f"{label}: url must be an absolute HTTP(S) URL.")
+
+    unknown_reference_ids = used_reference_ids - seen_reference_ids
+    if unknown_reference_ids:
+        errors.append(f"Catalog contains unknown referenceIds {sorted(unknown_reference_ids)!r}.")
+
+    uncited_reference_ids = seen_reference_ids - used_reference_ids
+    if uncited_reference_ids:
+        errors.append(f"References contains uncited works {sorted(uncited_reference_ids)!r}.")
+
+    network_errors, _ = validate_network(payload)
+    errors.extend(network_errors)
+
+    return errors
+
+
+def main() -> int:
+    errors = validate()
+    if errors:
+        print(f"Catalog validation failed with {len(errors)} error(s):", file=sys.stderr)
+        for error in errors:
+            print(f"- {error}", file=sys.stderr)
+        return 1
+
+    payload = json.loads(CATALOG_PATH.read_text(encoding="utf-8"))
+    references = json.loads(REFERENCES_PATH.read_text(encoding="utf-8"))
+    _, edges = validate_network(payload)
+    degree = {item["id"]: 0 for item in payload}
+    for edge in edges:
+        degree[edge["source"]] += 1
+        degree[edge["target"]] += 1
+    degree_values = list(degree.values())
+    average_degree = sum(degree_values) / len(degree_values)
+    print(
+        f"Catalog validation passed: {len(payload)} resources, {len(references)} cited works, "
+        f"and {len(edges)} network edges (degree {min(degree_values)}-{max(degree_values)}, "
+        f"average {average_degree:.2f})."
+    )
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
