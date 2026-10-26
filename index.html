@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hydrological Research Catalog has moved</title>
+  <meta name="robots" content="noindex">
+  <link rel="canonical" href="https://hydro-catalog.pages.dev/">
+  <script>
+    (function () {
+      "use strict";
+      var base = "https://hydro-catalog.pages.dev/";
+      var path = window.location.pathname;
+      var prefix = "/hydro-catalog";
+      if (path === prefix || path.indexOf(prefix + "/") === 0) {
+        path = path.slice(prefix.length);
+      }
+      path = path.replace(/^\/+/, "");
+      var routes = {
+        "": "",
+        "index.html": "",
+        "network": "network.html",
+        "network.html": "network.html",
+        "references": "references.html",
+        "references.html": "references.html",
+        "hydrography-resource-selection-guide": "hydrography-resource-selection-guide.html",
+        "hydrography-resource-selection-guide.html": "hydrography-resource-selection-guide.html"
+      };
+      var destination = Object.prototype.hasOwnProperty.call(routes, path) ? routes[path] : "";
+      window.location.replace(base + destination + window.location.search + window.location.hash);
+    }());
+  </script>
+  <meta http-equiv="refresh" content="0; url=https://hydro-catalog.pages.dev/">
+</head>
+<body>
+  <h1>Hydrological Research Catalog has moved</h1>
+  <p>Visit <a href="https://hydro-catalog.pages.dev/">hydro-catalog.pages.dev</a>.</p>
+  <p>To suggest a resource or report a correction, use
+    <a href="https://github.com/pjlicn/hydro-catalog/issues">GitHub Issues</a>.</p>
+</body>
+</html>
